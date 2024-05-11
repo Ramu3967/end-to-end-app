@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -59,6 +61,19 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+
+
+    // network
+    implementation ("com.squareup.retrofit2:retrofit:${rootProject.extra["retrofitVersion"]}")
+
+    implementation ("com.google.code.gson:gson:${rootProject.extra["gsonVersion"]}")
+    implementation ("com.squareup.okhttp3:okhttp:${rootProject.extra["gsonVersion"]}")
+    implementation ("com.squareup.okhttp3:logging-interceptor:${rootProject.extra["okHttpVersion"]}")
+
+    // DI
+    implementation ("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
+    kapt ("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
