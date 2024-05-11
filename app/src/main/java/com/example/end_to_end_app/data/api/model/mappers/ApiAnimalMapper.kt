@@ -13,9 +13,10 @@ import com.example.end_to_end_app.common.domain.model.animal.details.Size
 import com.example.end_to_end_app.common.domain.model.organization.Organization
 import com.example.end_to_end_app.common.utils.DateTimeUtils
 import com.example.end_to_end_app.data.api.model.ApiAnimal
+import javax.inject.Inject
 
 
-class ApiAnimalMapper(
+class ApiAnimalMapper  @Inject constructor(
     private val apiBreedsMapper: ApiBreedsMapper,
     private val apiColorsMapper: ApiColorsMapper,
     private val apiHealthDetailsMapper: ApiHealthDetailsMapper,
@@ -26,7 +27,6 @@ class ApiAnimalMapper(
 ): ApiMapper<ApiAnimal, AnimalWithDetails> {
 
     // Add code here
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun mapToDomain(apiEntity: ApiAnimal): AnimalWithDetails {
         return AnimalWithDetails(
             id = apiEntity.id ?: throw MappingException("Animal ID cannot be null"),

@@ -17,4 +17,12 @@ object ApiParameters {
     const val NAME = "name"
     const val AGE = "age"
     const val TYPE = "type"
+
+
+    const val TOKEN_TYPE = "Bearer "
+    const val AUTH_HEADER = "Authorization"
+    const val GRANT_TYPE_KEY = "grant_type"
+    const val GRANT_TYPE_VALUE = "client_credentials"
+    const val CLIENT_ID = "client_id"
+    const val CLIENT_SECRET = "client_secret"
 }

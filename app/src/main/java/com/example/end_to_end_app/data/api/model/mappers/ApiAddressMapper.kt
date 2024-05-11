@@ -3,12 +3,13 @@ package com.example.end_to_end_app.data.api.model.mappers
 
 import com.example.end_to_end_app.common.domain.model.organization.Organization
 import com.example.end_to_end_app.data.api.model.ApiAddress
+import javax.inject.Inject
 
 /**
  * These mappers are used to obtain the domain entities from the Api entities.
  * But we employ AnimalRepository (soon) to invert this dependency between domain and data layers.
  */
-class ApiAddressMapper : ApiMapper<ApiAddress?, Organization.Address> {
+class ApiAddressMapper  @Inject constructor(): ApiMapper<ApiAddress?, Organization.Address> {
 
   override fun mapToDomain(apiEntity: ApiAddress?): Organization.Address {
     return Organization.Address(

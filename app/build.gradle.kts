@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.end_to_end_app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -73,7 +73,7 @@ dependencies {
 
     // DI
     implementation ("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
-    kapt ("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
+    kapt ("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -82,4 +82,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+kapt {
+    correctErrorTypes = true
 }

@@ -3,9 +3,10 @@ package com.example.end_to_end_app.data.api.model.mappers
 
 import com.example.end_to_end_app.common.domain.model.animal.details.HabitatAdaptation
 import com.example.end_to_end_app.data.api.model.ApiEnvironment
+import javax.inject.Inject
 
 
-class ApiHabitatAdaptationMapper :
+class ApiHabitatAdaptationMapper  @Inject constructor() :
     ApiMapper<ApiEnvironment?, HabitatAdaptation> {
 
   override fun mapToDomain(apiEntity: ApiEnvironment?): HabitatAdaptation {

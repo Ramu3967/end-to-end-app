@@ -3,9 +3,10 @@ package com.example.end_to_end_app.data.api.model.mappers
 
 import com.example.end_to_end_app.common.domain.model.animal.details.HealthDetails
 import com.example.end_to_end_app.data.api.model.ApiAttributes
+import javax.inject.Inject
 
 
-class ApiHealthDetailsMapper :
+class ApiHealthDetailsMapper  @Inject constructor() :
     ApiMapper<ApiAttributes?, HealthDetails> {
 
   override fun mapToDomain(apiEntity: ApiAttributes?): HealthDetails {
