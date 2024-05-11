@@ -65,6 +65,7 @@ dependencies {
 
     // network
     implementation ("com.squareup.retrofit2:retrofit:${rootProject.extra["retrofitVersion"]}")
+    implementation("com.squareup.retrofit2:converter-gson:${rootProject.extra["retrofitVersion"]}")
 
     implementation ("com.google.code.gson:gson:${rootProject.extra["gsonVersion"]}")
     implementation ("com.squareup.okhttp3:okhttp:${rootProject.extra["gsonVersion"]}")
