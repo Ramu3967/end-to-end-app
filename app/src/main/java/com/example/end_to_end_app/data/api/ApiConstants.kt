@@ -8,3 +8,13 @@ object ApiConstants {
     const val KEY = "tL4Z9TRz96u0vPYL2ky82ls1I07M5zgY9Q55dxW5Daudjq0v2A"
     const val SECRET = "vbiFM2G06gVITuODqdgiIbu7t57IGKsZ7sTnxcne"
 }
+
+object ApiParameters {
+    const val PAGE = "page"
+    const val LIMIT = "limit"
+    const val LOCATION = "location"
+    const val DISTANCE = "distance"
+    const val NAME = "name"
+    const val AGE = "age"
+    const val TYPE = "type"
+}
