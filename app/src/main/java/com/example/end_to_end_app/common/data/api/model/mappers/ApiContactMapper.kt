@@ -1,8 +1,8 @@
 
-package com.example.end_to_end_app.data.api.model.mappers
+package com.example.end_to_end_app.common.data.api.model.mappers
 
+import com.example.end_to_end_app.common.data.api.model.ApiContact
 import com.example.end_to_end_app.common.domain.model.organization.Organization
-import com.example.end_to_end_app.data.api.model.ApiContact
 import javax.inject.Inject
 
 

@@ -1,7 +1,7 @@
 package com.example.end_to_end_app.data.api.interceptor
 
-import com.example.end_to_end_app.data.api.ApiConstants
-import com.example.end_to_end_app.data.api.ApiParameters
+import com.example.end_to_end_app.common.data.api.ApiConstants
+import com.example.end_to_end_app.common.data.api.ApiParameters
 import com.example.end_to_end_app.data.api.utils.JsonReader
 import com.example.end_to_end_app.data.preferences.Preferences
 import okhttp3.OkHttpClient
@@ -31,10 +31,10 @@ class AuthenticationInterceptorTest{
     private lateinit var sut: AuthenticationInterceptor
 
     private val endpointSeparator = "/"
-    private val animalsEndpointPath = endpointSeparator + ApiConstants.ANIMALS_ENDPOINT
+    private val animalsEndpointPath = endpointSeparator + com.example.end_to_end_app.common.data.api.ApiConstants.ANIMALS_ENDPOINT
     private val validToken = "validToken"
 
-    private val authEndpointPath = endpointSeparator + ApiConstants.AUTH_ENDPOINT
+    private val authEndpointPath = endpointSeparator + com.example.end_to_end_app.common.data.api.ApiConstants.AUTH_ENDPOINT
     private val expiredToken = "expiredToken"
 
     @Before
@@ -63,7 +63,7 @@ class AuthenticationInterceptorTest{
         // When
         okHttpClient.newCall(
             Request.Builder()
-                .url(mockWebServer.url(ApiConstants.ANIMALS_ENDPOINT))
+                .url(mockWebServer.url(com.example.end_to_end_app.common.data.api.ApiConstants.ANIMALS_ENDPOINT))
                 .build())
             .execute()
         // Then
@@ -71,8 +71,8 @@ class AuthenticationInterceptorTest{
         request.run {
             assertThat(method).isEqualTo("GET")
             assertThat(path).isEqualTo(animalsEndpointPath)
-            assertThat(getHeader(ApiParameters.AUTH_HEADER))
-                .isEqualTo(ApiParameters.TOKEN_TYPE + validToken)
+            assertThat(getHeader(com.example.end_to_end_app.common.data.api.ApiParameters.AUTH_HEADER))
+                .isEqualTo(com.example.end_to_end_app.common.data.api.ApiParameters.TOKEN_TYPE + validToken)
 
         }
     }
@@ -89,7 +89,7 @@ class AuthenticationInterceptorTest{
         // When
         okHttpClient.newCall(
             Request.Builder()
-                .url(mockWebServer.url(ApiConstants.ANIMALS_ENDPOINT))
+                .url(mockWebServer.url(com.example.end_to_end_app.common.data.api.ApiConstants.ANIMALS_ENDPOINT))
                 .build())
             .execute()
         // Then
@@ -108,13 +108,13 @@ class AuthenticationInterceptorTest{
         Mockito.verify(preferences, Mockito.times(1))
             .putTokenExpirationTime(ArgumentMatchers.anyLong())
         Mockito.verify(preferences, Mockito.times(1))
-            .putTokenType(ApiParameters.TOKEN_TYPE.trim())
+            .putTokenType(com.example.end_to_end_app.common.data.api.ApiParameters.TOKEN_TYPE.trim())
         Mockito.verifyNoMoreInteractions(preferences)
         with(animalsRequest) { // 6
             assertThat(method).isEqualTo("GET")
             assertThat(path).isEqualTo(animalsEndpointPath)
-            assertThat(getHeader(ApiParameters.AUTH_HEADER))
-                .isEqualTo(ApiParameters.TOKEN_TYPE + validToken)
+            assertThat(getHeader(com.example.end_to_end_app.common.data.api.ApiParameters.AUTH_HEADER))
+                .isEqualTo(com.example.end_to_end_app.common.data.api.ApiParameters.TOKEN_TYPE + validToken)
         }
     }
 

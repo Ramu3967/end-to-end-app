@@ -1,5 +1,5 @@
 
-package com.example.end_to_end_app.data.api.model.mappers
+package com.example.end_to_end_app.common.data.api.model.mappers
 
 /**
  * Api layer specific exception

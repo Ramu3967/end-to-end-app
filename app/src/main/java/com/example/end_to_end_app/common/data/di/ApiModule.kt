@@ -1,8 +1,7 @@
-package com.example.end_to_end_app.data.di
+package com.example.end_to_end_app.common.data.di
 
-import com.example.end_to_end_app.data.api.ApiConstants
-import com.example.end_to_end_app.data.api.PetFinderApi
-import com.example.end_to_end_app.data.api.interceptor.NetworkStatusInterceptor
+import com.example.end_to_end_app.common.data.api.PetFinderApi
+import com.example.end_to_end_app.common.data.api.interceptor.NetworkStatusInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +31,7 @@ object ApiModule {
         okHttpClient: OkHttpClient
     ): Retrofit.Builder =
         Retrofit.Builder()
-            .baseUrl(ApiConstants.BASE_ENDPOINT)
+            .baseUrl(com.example.end_to_end_app.common.data.api.ApiConstants.BASE_ENDPOINT)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
 

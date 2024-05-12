@@ -15,6 +15,7 @@ buildscript{
         set("mockWebServerVersion","4.9.3")
         set("mockitoVersion","3.9.0")
         set("truthVersion","1.1.2")
+        set("kotlinVersion","1.7.1")
     }
 
 }

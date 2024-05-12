@@ -1,8 +1,8 @@
 
-package com.example.end_to_end_app.data.api.model.mappers
+package com.example.end_to_end_app.common.data.api.model.mappers
 
+import com.example.end_to_end_app.common.data.api.model.ApiAttributes
 import com.example.end_to_end_app.common.domain.model.animal.details.HealthDetails
-import com.example.end_to_end_app.data.api.model.ApiAttributes
 import javax.inject.Inject
 
 

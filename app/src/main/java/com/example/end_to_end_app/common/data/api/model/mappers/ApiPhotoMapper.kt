@@ -1,8 +1,8 @@
 
-package com.example.end_to_end_app.data.api.model.mappers
+package com.example.end_to_end_app.common.data.api.model.mappers
 
+import com.example.end_to_end_app.common.data.api.model.ApiPhotoSizes
 import com.example.end_to_end_app.common.domain.model.animal.Media
-import com.example.end_to_end_app.data.api.model.ApiPhotoSizes
 import javax.inject.Inject
 
 
