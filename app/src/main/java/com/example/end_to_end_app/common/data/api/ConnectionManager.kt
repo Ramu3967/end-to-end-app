@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.data.api
+package com.example.end_to_end_app.common.data.api
 
 import android.content.Context
 import android.net.ConnectivityManager

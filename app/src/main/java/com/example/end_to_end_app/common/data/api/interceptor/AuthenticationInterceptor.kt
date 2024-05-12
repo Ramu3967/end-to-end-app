@@ -1,17 +1,15 @@
-package com.example.end_to_end_app.data.api.interceptor
+package com.example.end_to_end_app.common.data.api.interceptor
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.example.end_to_end_app.data.api.ApiConstants
-import com.example.end_to_end_app.data.api.ApiConstants.AUTH_ENDPOINT
-import com.example.end_to_end_app.data.api.ApiParameters.AUTH_HEADER
-import com.example.end_to_end_app.data.api.ApiParameters.CLIENT_ID
-import com.example.end_to_end_app.data.api.ApiParameters.CLIENT_SECRET
-import com.example.end_to_end_app.data.api.ApiParameters.GRANT_TYPE_KEY
-import com.example.end_to_end_app.data.api.ApiParameters.GRANT_TYPE_VALUE
-import com.example.end_to_end_app.data.api.ApiParameters.TOKEN_TYPE
-import com.example.end_to_end_app.data.api.model.ApiToken
-import com.example.end_to_end_app.data.preferences.Preferences
+import com.example.end_to_end_app.common.data.api.ApiConstants
+import com.example.end_to_end_app.common.data.api.ApiConstants.AUTH_ENDPOINT
+import com.example.end_to_end_app.common.data.api.ApiParameters.AUTH_HEADER
+import com.example.end_to_end_app.common.data.api.ApiParameters.CLIENT_ID
+import com.example.end_to_end_app.common.data.api.ApiParameters.CLIENT_SECRET
+import com.example.end_to_end_app.common.data.api.ApiParameters.GRANT_TYPE_KEY
+import com.example.end_to_end_app.common.data.api.ApiParameters.GRANT_TYPE_VALUE
+import com.example.end_to_end_app.common.data.api.ApiParameters.TOKEN_TYPE
+import com.example.end_to_end_app.common.data.api.model.ApiToken
+import com.example.end_to_end_app.common.data.preferences.Preferences
 import com.google.gson.Gson
 import okhttp3.FormBody
 import okhttp3.Interceptor
@@ -87,11 +85,9 @@ class AuthenticationInterceptor(
 
     private fun Interceptor.Chain.proceedDeletingTokenIfUnauthorized(request: Request): Response {
         val response = proceed(request)
-
         if (response.code == UNAUTHORIZED) {
             preferences.deleteTokenInfo()
         }
-
         return response
     }
 
@@ -99,7 +95,6 @@ class AuthenticationInterceptor(
     private fun mapToken(tokenRefreshResponse: Response): ApiToken {
         val gson = Gson()
         val responseBody = tokenRefreshResponse.body!! // if successful, this should be good :]
-
         return gson.fromJson(responseBody.string(), ApiToken::class.java) ?: ApiToken.INVALID
     }
 

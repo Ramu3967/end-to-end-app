@@ -1,7 +1,6 @@
-package com.example.end_to_end_app.data.api.model.mappers
+package com.example.end_to_end_app.common.data.api.model.mappers
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import com.example.end_to_end_app.common.data.api.model.ApiAnimal
 import com.example.end_to_end_app.common.domain.model.animal.AdoptionStatus
 import com.example.end_to_end_app.common.domain.model.animal.Media
 import com.example.end_to_end_app.common.domain.model.animal.details.Age
@@ -12,7 +11,6 @@ import com.example.end_to_end_app.common.domain.model.animal.details.Gender
 import com.example.end_to_end_app.common.domain.model.animal.details.Size
 import com.example.end_to_end_app.common.domain.model.organization.Organization
 import com.example.end_to_end_app.common.utils.DateTimeUtils
-import com.example.end_to_end_app.data.api.model.ApiAnimal
 import javax.inject.Inject
 
 

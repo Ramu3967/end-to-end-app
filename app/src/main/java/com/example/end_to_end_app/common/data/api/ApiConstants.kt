@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.data.api
+package com.example.end_to_end_app.common.data.api
 
 object ApiConstants {
     const val BASE_ENDPOINT = "https://api.petfinder.com/v2/"

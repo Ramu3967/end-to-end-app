@@ -1,8 +1,8 @@
 
-package com.example.end_to_end_app.data.api.model.mappers
+package com.example.end_to_end_app.common.data.api.model.mappers
 
+import com.example.end_to_end_app.common.data.api.model.ApiColors
 import com.example.end_to_end_app.common.domain.model.animal.details.Colors
-import com.example.end_to_end_app.data.api.model.ApiColors
 import javax.inject.Inject
 
 

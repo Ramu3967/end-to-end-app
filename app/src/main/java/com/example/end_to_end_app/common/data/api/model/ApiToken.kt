@@ -1,7 +1,5 @@
-package com.example.end_to_end_app.data.api.model
+package com.example.end_to_end_app.common.data.api.model
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
 import java.time.Instant
 

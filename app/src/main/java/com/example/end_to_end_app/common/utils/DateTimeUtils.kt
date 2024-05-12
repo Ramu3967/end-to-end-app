@@ -1,9 +1,6 @@
 
 package com.example.end_to_end_app.common.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import java.lang.Exception
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

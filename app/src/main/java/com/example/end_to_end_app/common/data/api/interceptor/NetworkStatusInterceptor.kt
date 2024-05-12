@@ -1,7 +1,7 @@
-package com.example.end_to_end_app.data.api.interceptor
+package com.example.end_to_end_app.common.data.api.interceptor
 
+import com.example.end_to_end_app.common.data.api.ConnectionManager
 import com.example.end_to_end_app.common.domain.NetworkUnavailableException
-import com.example.end_to_end_app.data.api.ConnectionManager
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

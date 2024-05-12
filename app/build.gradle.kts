@@ -81,6 +81,9 @@ dependencies {
     implementation ("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
     kapt ("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
 
+    // Cors and flows
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.extra["kotlinVersion"]}")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:${rootProject.extra["kotlinVersion"]}")
 
     // for unit tests
     testImplementation ("org.robolectric:robolectric:${rootProject.extra["robolectric"]}")
