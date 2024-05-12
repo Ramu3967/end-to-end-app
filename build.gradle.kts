@@ -14,6 +14,7 @@ buildscript{
         set("robolectric","4.8")
         set("mockWebServerVersion","4.9.3")
         set("mockitoVersion","3.9.0")
+        set("truthVersion","1.1.2")
     }
 
 }

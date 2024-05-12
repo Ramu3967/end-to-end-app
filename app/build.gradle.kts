@@ -24,7 +24,7 @@ android {
 
     testOptions {
         unitTests {
-            isIncludeAndroidResources = true
+            isIncludeAndroidResources = false
         }
     }
 
@@ -86,6 +86,7 @@ dependencies {
     testImplementation ("org.robolectric:robolectric:${rootProject.extra["robolectric"]}")
     testImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
     testImplementation ("org.mockito:mockito-core:${rootProject.extra["mockitoVersion"]}")
+    testImplementation("com.google.truth:truth:${rootProject.extra["truthVersion"]}")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
