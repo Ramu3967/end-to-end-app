@@ -22,6 +22,12 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -74,6 +80,12 @@ dependencies {
     // DI
     implementation ("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
     kapt ("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
+
+
+    // for unit tests
+    testImplementation ("org.robolectric:robolectric:${rootProject.extra["robolectric"]}")
+    testImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
+    testImplementation ("org.mockito:mockito-core:${rootProject.extra["mockitoVersion"]}")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

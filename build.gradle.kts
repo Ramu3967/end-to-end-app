@@ -11,6 +11,9 @@ buildscript{
         set("retrofitVersion","2.9.0")
         set("hiltVersion","2.46.1")
         set("okHttpVersion","4.9.3")
+        set("robolectric","4.8")
+        set("mockWebServerVersion","4.9.3")
+        set("mockitoVersion","3.9.0")
     }
 
 }
