@@ -8,7 +8,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object DateTimeUtils {
-  @RequiresApi(Build.VERSION_CODES.O)
   fun parse(dateTimeString: String): LocalDateTime = try {
       LocalDateTime.parse(dateTimeString)
     } catch (e: Exception) {

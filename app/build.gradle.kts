@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.end_to_end_app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -19,6 +19,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = false
         }
     }
 
@@ -65,6 +71,7 @@ dependencies {
 
     // network
     implementation ("com.squareup.retrofit2:retrofit:${rootProject.extra["retrofitVersion"]}")
+    implementation("com.squareup.retrofit2:converter-gson:${rootProject.extra["retrofitVersion"]}")
 
     implementation ("com.google.code.gson:gson:${rootProject.extra["gsonVersion"]}")
     implementation ("com.squareup.okhttp3:okhttp:${rootProject.extra["gsonVersion"]}")
@@ -72,7 +79,14 @@ dependencies {
 
     // DI
     implementation ("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
-    kapt ("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
+    kapt ("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
+
+
+    // for unit tests
+    testImplementation ("org.robolectric:robolectric:${rootProject.extra["robolectric"]}")
+    testImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
+    testImplementation ("org.mockito:mockito-core:${rootProject.extra["mockitoVersion"]}")
+    testImplementation("com.google.truth:truth:${rootProject.extra["truthVersion"]}")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -81,4 +95,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+kapt {
+    correctErrorTypes = true
 }
