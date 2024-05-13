@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -18,10 +19,12 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        networkStatusInterceptor: NetworkStatusInterceptor
+        networkStatusInterceptor: NetworkStatusInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient{
         return OkHttpClient.Builder()
             .addInterceptor(networkStatusInterceptor)
+            .addInterceptor(httpLoggingInterceptor)
             .build()
     }
 
@@ -44,4 +47,16 @@ object ApiModule {
         .build()
         .create(PetFinderApi::class.java)
 
+
+    @Provides
+    @Singleton
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        val interceptor = HttpLoggingInterceptor()
+
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        return interceptor
+    }
+
 }
+
