@@ -1,6 +1,6 @@
 package com.example.end_to_end_app.common.data.preferences
 
-interface Preferences {
+interface IPreferences {
 
     fun putToken(token: String)
 

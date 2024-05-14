@@ -1,6 +1,7 @@
 package com.example.end_to_end_app.common.data.di
 
 import com.example.end_to_end_app.common.data.api.PetFinderApi
+import com.example.end_to_end_app.common.data.api.interceptor.AuthenticationInterceptor
 import com.example.end_to_end_app.common.data.api.interceptor.NetworkStatusInterceptor
 import dagger.Module
 import dagger.Provides
@@ -14,17 +15,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ApiModule {
+object ModuleApi {
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
         networkStatusInterceptor: NetworkStatusInterceptor,
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authenticationInterceptor: AuthenticationInterceptor
     ): OkHttpClient{
         return OkHttpClient.Builder()
             .addInterceptor(networkStatusInterceptor)
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(authenticationInterceptor)
             .build()
     }
 

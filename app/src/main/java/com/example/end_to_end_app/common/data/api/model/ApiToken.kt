@@ -1,5 +1,6 @@
 package com.example.end_to_end_app.common.data.api.model
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
 import java.time.Instant
 
@@ -13,8 +14,12 @@ data class ApiToken(
         val INVALID = ApiToken("", -1, "")
     }
 
-    @Transient
-    private val requestedAt: Instant = Instant.now()
+    val requestedAt: Instant
+
+    init {
+        requestedAt = Instant.now()
+        Log.e("my_APiTOKEN", "$requestedAt is the value")
+    }
 
     val expiresAt: Long
         get() {
