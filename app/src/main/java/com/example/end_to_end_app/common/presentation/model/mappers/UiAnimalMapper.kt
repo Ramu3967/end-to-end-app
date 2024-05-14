@@ -9,7 +9,7 @@ class UiAnimalMapper @Inject constructor() : UiMapper<Animal, UIAnimal> {
         return UIAnimal(
             input.id,
             input.name,
-            input.media.photos.first().getSmallestAvailablePhoto()
+            input.media.getFirstSmallestAvailablePhoto()
         )
     }
 }

@@ -87,6 +87,7 @@ dependencies {
 
     //compose-deps
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation ("com.github.bumptech.glide:compose:1.0.0-alpha.1")
     // for unit tests
     testImplementation ("org.robolectric:robolectric:${rootProject.extra["robolectric"]}")
     testImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")

@@ -16,6 +16,7 @@ class PetFinderAnimalRepository @Inject constructor(
     private val api:PetFinderApi,
     private val apiAnimalMapper: ApiAnimalMapper
 ): AnimalRepository {
+
     override suspend fun getAnimals(): Flow<List<Animal>> = flow{
 
         try{
@@ -23,12 +24,11 @@ class PetFinderAnimalRepository @Inject constructor(
             val animals = apiAnimals?.map {
                 apiAnimalMapper.mapToDomain(it)
             }.orEmpty()
-
-            emit(
-                animals.map {
-                    Animal(id = it.id, name = it.name, type = it.type, media = it.media, tags = it.tags,
-                        adoptionStatus = it.adoptionStatus, publishedAt = it.publishedAt)
-                })
+            val result = animals.map {
+                Animal(id = it.id, name = it.name, type = it.type, media = it.media, tags = it.tags,
+                    adoptionStatus = it.adoptionStatus, publishedAt = it.publishedAt)
+            }
+            emit(result)
         }catch (e:Exception){
             Log.e("PetFinderAnimalRepository", "Error fetching animals: ${e.message}", e)
             emit(emptyList())

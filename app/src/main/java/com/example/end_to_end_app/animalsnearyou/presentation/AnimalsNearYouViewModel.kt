@@ -33,12 +33,11 @@ class AnimalsNearYouViewModel @Inject constructor(
     }
 
     private fun subscribeToAnimalUpdates() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             // invoking the use-case
             getAnimals().map {animals ->
                 animals.map { uiAnimalMapper.mapToView(it) }
-            }.flowOn(Dispatchers.IO)
-                .collect{
+            }.collect{
                     onNewAnimals(it)
                 }
             // TODO: handle failures
