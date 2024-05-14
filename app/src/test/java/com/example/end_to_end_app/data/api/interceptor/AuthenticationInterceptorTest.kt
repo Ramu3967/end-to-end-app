@@ -1,9 +1,9 @@
 package com.example.end_to_end_app.data.api.interceptor
 
-import com.example.end_to_end_app.common.data.api.ApiConstants
-import com.example.end_to_end_app.common.data.api.ApiParameters
+import com.example.end_to_end_app.common.data.api.interceptor.AuthenticationInterceptor
+import com.example.end_to_end_app.common.data.preferences.IPreferences
 import com.example.end_to_end_app.data.api.utils.JsonReader
-import com.example.end_to_end_app.data.preferences.Preferences
+import com.google.common.truth.Truth.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.Dispatcher
@@ -15,16 +15,15 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.robolectric.RobolectricTestRunner
 import java.time.Instant
-import com.google.common.truth.Truth.*
-import org.mockito.ArgumentMatchers
 
 @RunWith(RobolectricTestRunner::class)
 class AuthenticationInterceptorTest{
-    private lateinit var preferences: Preferences
+    private lateinit var preferences: IPreferences
     private lateinit var mockWebServer: MockWebServer
     private lateinit var okHttpClient: OkHttpClient
     //system under test
@@ -39,7 +38,7 @@ class AuthenticationInterceptorTest{
 
     @Before
     fun setup() {
-        preferences = mock(Preferences::class.java)
+        preferences = mock(IPreferences::class.java)
         mockWebServer = MockWebServer()
         mockWebServer.start(8080)
         sut = AuthenticationInterceptor(preferences)

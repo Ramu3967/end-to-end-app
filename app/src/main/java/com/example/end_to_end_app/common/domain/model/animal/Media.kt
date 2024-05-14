@@ -8,6 +8,12 @@ data class Media(
     val videos: List<Video>
 ) {
 
+    fun getFirstSmallestAvailablePhoto(): String {
+        if (photos.isEmpty()) return ""
+
+        return photos.first().getSmallestAvailablePhoto()
+    }
+
     data class Photo(
         val medium: String,
         val full: String

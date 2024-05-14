@@ -9,13 +9,14 @@ import com.example.end_to_end_app.common.data.api.ApiParameters.GRANT_TYPE_KEY
 import com.example.end_to_end_app.common.data.api.ApiParameters.GRANT_TYPE_VALUE
 import com.example.end_to_end_app.common.data.api.ApiParameters.TOKEN_TYPE
 import com.example.end_to_end_app.common.data.api.model.ApiToken
-import com.example.end_to_end_app.common.data.preferences.Preferences
+import com.example.end_to_end_app.common.data.preferences.IPreferences
 import com.google.gson.Gson
 import okhttp3.FormBody
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.time.Instant
+import javax.inject.Inject
 
 /**
  * this interceptor is used to
@@ -23,8 +24,8 @@ import java.time.Instant
  * 2) refresh/manage the auth token
  * for each request from the client
  */
-class AuthenticationInterceptor(
-    private val preferences: Preferences
+class AuthenticationInterceptor @Inject constructor(
+    private val preferences: IPreferences
 ): Interceptor {
 
     companion object {
@@ -102,7 +103,8 @@ class AuthenticationInterceptor(
     private fun storeNewToken(apiToken: ApiToken) {
         with(preferences) {
             putTokenType(apiToken.tokenType!!)
-            putTokenExpirationTime(apiToken.expiresAt)
+            // putTokenExpirationTime(apiToken.expiresAt) some timing issue with Instant.now() in the api-token resulting in NPE hence the hardcoded value for now
+            putTokenExpirationTime(5000L)
             putToken(apiToken.accessToken!!)
         }
     }
