@@ -5,17 +5,22 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.end_to_end_app.R
 
 
 class AnimalsNearYouComposable {
@@ -42,7 +47,7 @@ fun AnimalsNearYouScreen() {
 @Composable
 fun MyGrid(viewModel: AnimalsNearYouViewModel) {
     val data = viewModel.state.collectAsState()
-    LazyVerticalGrid(columns = GridCells.Adaptive(200.dp)){
+    LazyVerticalGrid(columns = GridCells.Fixed(2)){
         items(data.value.dataAnimals.size){
             AnimalUIElement(data.value.dataAnimals[it].photo, data.value.dataAnimals[it].name)
         }
@@ -54,11 +59,13 @@ fun MyGrid(viewModel: AnimalsNearYouViewModel) {
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun AnimalUIElement(imgPath: String, desc: String) {
-    Column(modifier = Modifier.padding(20.dp)) {
+    Column(modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
-        GlideImage(model = imgPath, contentDescription = "")
+        GlideImage(model = imgPath, contentDescription = "", modifier=Modifier.size(150.dp)){
+            it.error(R.drawable.dog_placeholder)
+        }
 
-        Text(text= desc)
+        Text(text= desc, style = TextStyle(textAlign = TextAlign.Center))
 
     }
 }

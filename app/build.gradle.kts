@@ -85,9 +85,15 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.extra["kotlinVersion"]}")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:${rootProject.extra["kotlinVersion"]}")
 
+    // cache/room
+    implementation ("androidx.room:room-runtime:${rootProject.extra["roomVersion"]}")
+    implementation ("androidx.room:room-ktx:${rootProject.extra["roomVersion"]}")
+    
     //compose-deps
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation ("com.github.bumptech.glide:compose:1.0.0-alpha.1")
+
+
     // for unit tests
     testImplementation ("org.robolectric:robolectric:${rootProject.extra["robolectric"]}")
     testImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
