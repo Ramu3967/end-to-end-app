@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.common.data.cache.cachedanimal
+package com.example.end_to_end_app.common.data.cache.model.cachedanimal
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -10,7 +10,8 @@ import com.example.end_to_end_app.common.domain.model.animal.Media
  *  can have multiple photos/videos)
  */
 
-@Entity(tableName = "photos",
+@Entity(
+    tableName = "photos",
     foreignKeys = [
         ForeignKey(
             entity = CachedAnimalWithDetails::class,
@@ -27,9 +28,9 @@ data class CachedPhoto(
     val animalId: Long,
     val medium: String,
     val full: String
-){
-    companion object{
-        fun fromDomain(animalId: Long, photo: Media.Photo) = run{
+) {
+    companion object {
+        fun fromDomain(animalId: Long, photo: Media.Photo) = run {
             val (med, full) = photo
             CachedPhoto(animalId = animalId, medium = med, full = full)
         }

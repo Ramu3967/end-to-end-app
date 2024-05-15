@@ -1,7 +1,11 @@
-package com.example.end_to_end_app.common.data.cache.cachedanimal
+package com.example.end_to_end_app.common.data.cache.model.cachedanimal
 
 import androidx.room.Entity
+import com.example.end_to_end_app.common.domain.model.animal.AdoptionStatus
+import com.example.end_to_end_app.common.domain.model.animal.Animal
+import com.example.end_to_end_app.common.domain.model.animal.Media
 import com.example.end_to_end_app.common.domain.model.animal.details.AnimalWithDetails
+import com.example.end_to_end_app.common.utils.DateTimeUtils
 
 /**
  * This table/entity is dependent on the CachedOrg table. It has one to many relationship (1 Org
@@ -38,7 +42,7 @@ data class CachedAnimalWithDetails(
     val publishedAt: String
 ) {
     companion object{
-        fun fromDomain(domainAnimal: AnimalWithDetails): CachedAnimalWithDetails{
+        fun fromDomain(domainAnimal: AnimalWithDetails): CachedAnimalWithDetails {
             val details = domainAnimal.details
             return CachedAnimalWithDetails(
                 animalId = domainAnimal.id,
@@ -68,10 +72,23 @@ data class CachedAnimalWithDetails(
             )
         }
     }
+
+    fun toAnimalDomain(
+        photos: List<CachedPhoto>,
+        videos: List<CachedVideo>,
+        tags: List<CachedTag>): Animal {
+        return Animal(
+            id = animalId,
+            name = name,
+            type = type,
+            media = Media(
+                photos = photos.map { it.toDomain() },
+                videos = videos.map { it.toDomain() }
+            ),
+            tags = tags.map { it.tag },
+            adoptionStatus = AdoptionStatus.valueOf(adoptionStatus),
+            publishedAt = DateTimeUtils.parse(publishedAt)
+        )
+    }
+
 }
-
-/*
-this table is dependent on photos and videos table
-fun toDomain(cachedAnimalWithDetails: CachedAnimalWithDetails): AnimalWithDetails{
-
-}*/

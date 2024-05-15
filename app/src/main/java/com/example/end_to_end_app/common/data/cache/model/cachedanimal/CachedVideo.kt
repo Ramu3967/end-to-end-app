@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.common.data.cache.cachedanimal
+package com.example.end_to_end_app.common.data.cache.model.cachedanimal
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
