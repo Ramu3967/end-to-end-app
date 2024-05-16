@@ -45,6 +45,9 @@ class AnimalsNearYouViewModel @Inject constructor(
     }
 
     private fun onNewAnimals(animals: List<UIAnimal>){
+//        if(animals.isEmpty()){
+//            viewModelScope.launch(Dispatchers.IO) { getAnimals.moreAnimals() }
+//        }
         _state.update { oldState ->
             oldState.copy(
                 loading = false,

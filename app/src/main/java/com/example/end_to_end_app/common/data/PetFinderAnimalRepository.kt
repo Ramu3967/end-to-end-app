@@ -7,6 +7,8 @@ import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedAni
 import com.example.end_to_end_app.common.data.cache.model.cachedorganization.CachedOrganization
 import com.example.end_to_end_app.common.domain.model.animal.Animal
 import com.example.end_to_end_app.common.domain.model.animal.details.AnimalWithDetails
+import com.example.end_to_end_app.common.domain.model.pagination.PaginatedAnimals
+import com.example.end_to_end_app.common.domain.model.pagination.Pagination
 import com.example.end_to_end_app.common.domain.model.repos.AnimalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -57,6 +59,24 @@ class PetFinderAnimalRepository @Inject constructor(
             CachedAnimalAggregate.fromDomain(it)
         }
         cache.saveNearbyAnimals(cachedAnimals)
+    }
+
+    override suspend fun requestMoreAnimals(pageToLoad: Int, numberOfItems: Int): PaginatedAnimals {
+        val (apiAnimals,_) = api.getNearbyAnimals(
+            pageToLoad = pageToLoad,
+            pageSize = numberOfItems
+        )
+        val animals = apiAnimals?.map {
+            apiAnimalMapper.mapToDomain(it)
+        }.orEmpty()
+
+        saveAnimals(animals)
+
+        val result = animals.map {
+            Animal(id = it.id, name = it.name, type = it.type, media = it.media, tags = it.tags,
+                adoptionStatus = it.adoptionStatus, publishedAt = it.publishedAt)
+        }
+        return PaginatedAnimals(animals, Pagination(9,9))
     }
 
 
