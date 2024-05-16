@@ -1,6 +1,11 @@
 package com.example.end_to_end_app.common.data.cache.model.cachedanimal
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import com.example.end_to_end_app.common.data.cache.model.cachedorganization.CachedOrganization
 import com.example.end_to_end_app.common.domain.model.animal.AdoptionStatus
 import com.example.end_to_end_app.common.domain.model.animal.Animal
 import com.example.end_to_end_app.common.domain.model.animal.Media
@@ -13,9 +18,19 @@ import com.example.end_to_end_app.common.utils.DateTimeUtils
  */
 
 @Entity(
-    tableName = "animals"
+    tableName = "animals",
+    foreignKeys = [
+        ForeignKey(
+            entity = CachedOrganization::class,
+            parentColumns = ["organizationId"],
+            childColumns = ["organizationId"],
+            onDelete = CASCADE
+        )
+    ],
+    indices = [Index("organizationId")]
 )
 data class CachedAnimalWithDetails(
+    @PrimaryKey
     val animalId: Long,
     val organizationId: String,
     val name: String,

@@ -4,6 +4,9 @@ import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedAni
 import com.example.end_to_end_app.common.data.cache.model.cachedorganization.CachedOrganization
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * An abstraction layer for accessing db. Use Room(incorporated), Sqlite etc to implement it.
+ */
 interface ICache {
     suspend fun saveOrganizations(organizations: List<CachedOrganization>)
 

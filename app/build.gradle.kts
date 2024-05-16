@@ -88,6 +88,7 @@ dependencies {
     // cache/room
     implementation ("androidx.room:room-runtime:${rootProject.extra["roomVersion"]}")
     implementation ("androidx.room:room-ktx:${rootProject.extra["roomVersion"]}")
+    kapt ("androidx.room:room-compiler:${rootProject.extra["roomVersion"]}")
     
     //compose-deps
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")

@@ -4,11 +4,12 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
+import com.example.end_to_end_app.common.domain.model.animal.details.AnimalWithDetails
 
 @Entity
 data class CachedAnimalAggregate(
     @Embedded
-    val animalWithDetails: CachedAnimalWithDetails,
+    val animal: CachedAnimalWithDetails,
 
     @Relation(
         parentColumn = "animalId",
@@ -30,4 +31,19 @@ data class CachedAnimalAggregate(
     )
     val tags: List<CachedTag>
 
-    )
+    ){
+    companion object {
+        fun fromDomain(animalWithDetails: AnimalWithDetails): CachedAnimalAggregate {
+            return CachedAnimalAggregate(
+                animal = CachedAnimalWithDetails.fromDomain(animalWithDetails),
+                photos = animalWithDetails.media.photos.map {
+                    CachedPhoto.fromDomain(animalWithDetails.id, it)
+                },
+                videos = animalWithDetails.media.videos.map {
+                    CachedVideo.fromDomain(animalWithDetails.id, it)
+                },
+                tags =  animalWithDetails.tags.map { CachedTag(it) }
+            )
+        }
+    }
+}

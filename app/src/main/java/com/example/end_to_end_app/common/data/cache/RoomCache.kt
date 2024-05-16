@@ -15,7 +15,7 @@ class RoomCache @Inject constructor(
     }
 
     override suspend fun saveNearbyAnimals(animals: List<CachedAnimalAggregate>) {
-        daoAnimals.saveAllAnimals(animals)
+        daoAnimals.insertAnimalsWithDetails(animals)
     }
 
     override suspend fun getNearbyAnimals(): Flow<List<CachedAnimalAggregate>> {

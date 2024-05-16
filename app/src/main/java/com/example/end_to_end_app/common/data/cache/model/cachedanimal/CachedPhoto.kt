@@ -2,6 +2,7 @@ package com.example.end_to_end_app.common.data.cache.model.cachedanimal
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.end_to_end_app.common.domain.model.animal.Media
 
@@ -19,7 +20,8 @@ import com.example.end_to_end_app.common.domain.model.animal.Media
             childColumns = ["animalId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index("animalId")]
 )
 
 data class CachedPhoto(

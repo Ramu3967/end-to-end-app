@@ -9,5 +9,5 @@ import com.example.end_to_end_app.common.data.cache.model.cachedorganization.Cac
 interface DaoOrganization{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(organizations: List<CachedOrganization>)
+    fun insert(organizations: List<CachedOrganization>)
 }

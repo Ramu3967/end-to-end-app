@@ -13,32 +13,28 @@ import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedVid
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface DaoAnimals{
-
-    // accessing multiple tables in a single transaction
+abstract class DaoAnimals {
     @Transaction
     @Query("select * from animals")
-    fun getAllAnimals(): Flow<List<CachedAnimalAggregate>>
+    abstract fun getAllAnimals():Flow<List<CachedAnimalAggregate>>
 
-    suspend fun saveAllAnimals(animals: List<CachedAnimalAggregate>){
-        animals.forEach {agg ->
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertAnimalAggregate(
+        animal:CachedAnimalWithDetails,
+        photos:List<CachedPhoto>,
+        videos:List<CachedVideo>,
+        tags:List<CachedTag>
+    )
+
+    suspend fun insertAnimalsWithDetails(animalAggregates: List<CachedAnimalAggregate>) {
+        animalAggregates.forEach {
             insertAnimalAggregate(
-                animals = agg.animalWithDetails,
-                photos = agg.photos,
-                videos = agg.videos,
-                tags = agg.tags
-
+                it.animal,
+                it.photos,
+                it.videos,
+                it.tags
             )
         }
     }
-
-    // NOTE - cannot insert Animal Aggregate as it is not an entity but a relationship between them
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAnimalAggregate(
-        animals: CachedAnimalWithDetails,
-        photos: List<CachedPhoto>,
-        videos: List<CachedVideo>,
-        tags: List<CachedTag>
-    )
 }
 

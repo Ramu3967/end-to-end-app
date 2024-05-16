@@ -1,6 +1,6 @@
 package com.example.end_to_end_app.common.data.di
 
-import com.example.end_to_end_app.common.data.api.PetFinderApi
+import com.example.end_to_end_app.common.data.api.IPetFinderApi
 import com.example.end_to_end_app.common.data.api.interceptor.AuthenticationInterceptor
 import com.example.end_to_end_app.common.data.api.interceptor.NetworkStatusInterceptor
 import dagger.Module
@@ -46,9 +46,9 @@ object ModuleApi {
     @Singleton
     fun providePetFinderApi(
         builder: Retrofit.Builder
-    ): PetFinderApi = builder
+    ): IPetFinderApi = builder
         .build()
-        .create(PetFinderApi::class.java)
+        .create(IPetFinderApi::class.java)
 
 
     @Provides

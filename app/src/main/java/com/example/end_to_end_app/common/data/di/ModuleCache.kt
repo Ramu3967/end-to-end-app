@@ -2,7 +2,6 @@ package com.example.end_to_end_app.common.data.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.end_to_end_app.common.data.cache.ICache
 import com.example.end_to_end_app.common.data.cache.PetDatabase
 import com.example.end_to_end_app.common.data.cache.RoomCache
@@ -18,7 +17,7 @@ import javax.inject.Singleton
 
 /**
  * reason for not using an object but an abstract class - @Binds should be in an abstract context and
- * object isn't. Also using the companion object to get the benefits of the object class, for non-
+ * object class doesn't provide it. Also using the companion object to get the benefits of the object class, for non-
  * bindable providers - concrete classes.
  */
 @Module

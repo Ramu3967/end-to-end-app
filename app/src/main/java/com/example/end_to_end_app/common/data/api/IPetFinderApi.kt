@@ -4,7 +4,7 @@ import com.example.end_to_end_app.common.data.api.model.ApiPaginatedAnimals
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface PetFinderApi {
+interface IPetFinderApi {
     @GET(ApiConstants.ANIMALS_ENDPOINT)
     suspend fun getNearbyAnimals(
         @Query(ApiParameters.PAGE) pageToLoad: Int = 1,
