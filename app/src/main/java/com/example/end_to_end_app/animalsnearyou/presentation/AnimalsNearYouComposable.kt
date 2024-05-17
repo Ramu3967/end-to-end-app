@@ -1,5 +1,6 @@
 package com.example.end_to_end_app.animalsnearyou.presentation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,13 +33,12 @@ class AnimalsNearYouComposable {
 fun AnimalsNearYouScreen() {
     val viewModel: AnimalsNearYouViewModel = hiltViewModel()
     Column(modifier = Modifier.fillMaxSize()) {
-        Button(onClick = { viewModel.onEvent(AnimalsNearYouEvent.RequestAnimals) }) {
+        Button(onClick = { }) {
             Text(text = "Send Event")
         }
         Spacer(modifier = Modifier.height(10.dp))
 
         MyGrid(viewModel)
-
     }
 
 }
@@ -46,13 +46,14 @@ fun AnimalsNearYouScreen() {
 
 @Composable
 fun MyGrid(viewModel: AnimalsNearYouViewModel) {
+    viewModel.onEvent(AnimalsNearYouEvent.RequestInitialAnimals)
     val data = viewModel.state.collectAsState()
+    updateScreen(data.value)
     LazyVerticalGrid(columns = GridCells.Fixed(2)){
         items(data.value.dataAnimals.size){
             AnimalUIElement(data.value.dataAnimals[it].photo, data.value.dataAnimals[it].name)
         }
     }
-
 }
 
 
@@ -68,4 +69,16 @@ fun AnimalUIElement(imgPath: String, desc: String) {
         Text(text= desc, style = TextStyle(textAlign = TextAlign.Center))
 
     }
+}
+
+fun updateScreen(state: AnimalsNearYouViewState){
+    handleFailure(state.failure)
+    // submit list to the vertical grid = state.animals
+}
+
+fun handleFailure(failure: Throwable?) {
+    val unhandledMessage = failure?.message ?: /* no failure then */ return
+    val fallbackMessage = "An error occurred. Please try again later"
+    val errorMessage = unhandledMessage.ifEmpty { fallbackMessage }
+    Log.e("Error-AnimalScreen", "handleFailure: $errorMessage" )
 }
