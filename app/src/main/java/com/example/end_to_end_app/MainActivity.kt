@@ -28,26 +28,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Column{
                         AnimalsNearYouScreen()
-                        Greeting(name = "Hello")
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EndtoEndAppTheme {
-        Greeting("Android")
     }
 }
