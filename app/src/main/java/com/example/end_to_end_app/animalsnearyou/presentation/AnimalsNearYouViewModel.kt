@@ -13,6 +13,7 @@ import com.example.end_to_end_app.common.presentation.model.mappers.UiAnimalMapp
 import com.example.end_to_end_app.common.utils.createExceptionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
