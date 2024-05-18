@@ -54,6 +54,9 @@ class AnimalsNearYouViewModel @Inject constructor(
                 Log.d("AnimalVM", "onEvent: Hello event")
                 loadAnimals()
             }
+            AnimalsNearYouEvent.RequestMoreAnimals -> {
+                loadNextAnimalPage(6)
+            }
         }
     }
 
@@ -62,14 +65,14 @@ class AnimalsNearYouViewModel @Inject constructor(
             loadNextAnimalPage()
     }
 
-    private fun loadNextAnimalPage() {
+    private fun loadNextAnimalPage(pageToLoad: Int = 3) {
         val errorMessage = "Failed to fetch animals"
         val exceptionHandler = viewModelScope.createExceptionHandler(errorMessage){
             onFailure(it)
         }
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             // saves animals into db and the ui gets updated
-            requestMoreAnimals(pageToLoad = 3)
+            requestMoreAnimals(pageToLoad)
         }
     }
 
