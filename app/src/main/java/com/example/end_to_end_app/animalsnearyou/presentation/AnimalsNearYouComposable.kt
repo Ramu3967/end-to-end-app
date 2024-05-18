@@ -54,12 +54,8 @@ fun AnimalsNearYouScreen() {
 fun InfiniteScrollableGrid(
     viewModel: AnimalsNearYouViewModel
 ) {
-    // Collect the state once when the screen is first loaded
     val animalState by viewModel.state.collectAsState()
     handleFailure(animalState.failure)
-
-    // Remember if the API call for more items has already been triggered
-    var isLoadingMoreItems by remember { mutableStateOf(false) }
 
     // Observe the scroll state of the LazyGrid
     val scrollState = rememberLazyGridState()
@@ -69,16 +65,14 @@ fun InfiniteScrollableGrid(
             val lastVisibleItemIndex = visibleItems.lastOrNull()?.index ?: 0
             val totalItems = animalState.dataAnimals.size
             val isEndReached = lastVisibleItemIndex >= totalItems - 1
-            isEndReached && !isLoadingMoreItems
+            isEndReached
         }
     }
 
     // Trigger the API call to load more items when scrolled to the end
     LaunchedEffect(isScrolledToEnd) {
         if (isScrolledToEnd) {
-            isLoadingMoreItems = true
             viewModel.onEvent(AnimalsNearYouEvent.RequestMoreAnimals)
-            isLoadingMoreItems = false
         }
     }
 

@@ -7,6 +7,7 @@ import com.example.end_to_end_app.animalsnearyou.domain.usecases.GetAnimals
 import com.example.end_to_end_app.animalsnearyou.domain.usecases.RequestNextPageOfAnimals
 import com.example.end_to_end_app.common.domain.NetworkUnavailableException
 import com.example.end_to_end_app.common.domain.NoMoreAnimalsException
+import com.example.end_to_end_app.common.domain.model.pagination.Pagination
 import com.example.end_to_end_app.common.presentation.model.UIAnimal
 import com.example.end_to_end_app.common.presentation.model.mappers.UiAnimalMapper
 import com.example.end_to_end_app.common.utils.createExceptionHandler
@@ -27,6 +28,7 @@ class AnimalsNearYouViewModel @Inject constructor(
     private val uiAnimalMapper: UiAnimalMapper
 ): ViewModel(){
 
+    private var currentPage = 1 // need to save in savedPrefs
     // holds the state of AnimalsNearYou screen
     private val _state = MutableStateFlow(AnimalsNearYouViewState())
     val state: StateFlow<AnimalsNearYouViewState>
@@ -37,14 +39,16 @@ class AnimalsNearYouViewModel @Inject constructor(
     }
 
     private fun subscribeToAnimalUpdates() {
-        viewModelScope.launch(Dispatchers.IO) {
+        val exceptionHandler = viewModelScope.createExceptionHandler("Failed to fetch animals"){
+            onFailure(it)
+        }
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             // invoking the use-case
             getAnimals().map {animals ->
                 animals.map { uiAnimalMapper.mapToView(it) }
             }.collect{
                     onNewAnimals(it)
                 }
-            // TODO: handle failures
         }
     }
 
@@ -55,7 +59,7 @@ class AnimalsNearYouViewModel @Inject constructor(
                 loadAnimals()
             }
             AnimalsNearYouEvent.RequestMoreAnimals -> {
-                loadNextAnimalPage(6)
+                loadNextAnimalPage()
             }
         }
     }
@@ -65,14 +69,15 @@ class AnimalsNearYouViewModel @Inject constructor(
             loadNextAnimalPage()
     }
 
-    private fun loadNextAnimalPage(pageToLoad: Int = 3) {
+    private fun loadNextAnimalPage() {
         val errorMessage = "Failed to fetch animals"
         val exceptionHandler = viewModelScope.createExceptionHandler(errorMessage){
             onFailure(it)
         }
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             // saves animals into db and the ui gets updated
-            requestMoreAnimals(pageToLoad)
+            val pagination = requestMoreAnimals(++currentPage)
+            onPaginationInfoObtained(pagination)
         }
     }
 
@@ -83,6 +88,10 @@ class AnimalsNearYouViewModel @Inject constructor(
                 dataAnimals = animals
             )
         }
+    }
+
+    private fun onPaginationInfoObtained(pagination: Pagination) {
+        currentPage = pagination.currentPage
     }
 
     private fun onFailure(failure: Throwable) {
@@ -97,7 +106,7 @@ class AnimalsNearYouViewModel @Inject constructor(
                     )
                 }
             }
-            is NetworkUnavailableException -> {
+            is NetworkUnavailableException, is Exception -> {
                 _state.update { oldState ->
                     oldState.copy(
                         loading = false,
