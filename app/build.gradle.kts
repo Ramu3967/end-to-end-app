@@ -106,7 +106,7 @@ dependencies {
 
     // for unit tests
     testImplementation ("org.robolectric:robolectric:${rootProject.extra["robolectric"]}")
-    testImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
+//    testImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
     testImplementation ("org.mockito:mockito-core:${rootProject.extra["mockitoVersion"]}")
 
     // android test deps
@@ -116,9 +116,11 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["hiltVersion"]}")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
 
+
     // Dependencies for both test and AndroidTest
     debugImplementation("com.google.truth:truth:${rootProject.extra["truthVersion"]}")
     debugImplementation("androidx.arch.core:core-testing:${rootProject.extra["androidxCoreTestingVersion"]}")
+    debugImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
 
 
     testImplementation("junit:junit:4.13.2")
