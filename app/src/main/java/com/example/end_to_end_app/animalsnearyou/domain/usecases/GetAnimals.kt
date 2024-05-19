@@ -12,5 +12,4 @@ class GetAnimals @Inject constructor(
 ){
     // felt better to call it GetAnimals() than getAnimals.makeApiCall()
     suspend operator fun invoke() = animalRepo.getAnimals()
-    suspend fun moreAnimals() = animalRepo.requestMoreAnimals(2,10)
 }

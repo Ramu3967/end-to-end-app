@@ -25,23 +25,6 @@ class PetFinderAnimalRepository @Inject constructor(
 ): AnimalRepository {
 
     override suspend fun getAnimals(): Flow<List<Animal>> {
-        /*
-        Now, the data should be retrieved from the cache
-        try{
-            val (apiAnimals,_) = api.getNearbyAnimals()
-            val animals = apiAnimals?.map {
-                apiAnimalMapper.mapToDomain(it)
-            }.orEmpty()
-            val result = animals.map {
-                Animal(id = it.id, name = it.name, type = it.type, media = it.media, tags = it.tags,
-                    adoptionStatus = it.adoptionStatus, publishedAt = it.publishedAt)
-            }
-            emit(result)
-        }catch (e:Exception){
-            Log.e("PetFinderAnimalRepository", "Error fetching animals: ${e.message}", e)
-            emit(emptyList())
-        }*/
-
         val result = cache.getNearbyAnimals()
         .map { animAg ->
             animAg.map {
@@ -72,11 +55,7 @@ class PetFinderAnimalRepository @Inject constructor(
 
         saveAnimals(animals)
 
-        val result = animals.map {
-            Animal(id = it.id, name = it.name, type = it.type, media = it.media, tags = it.tags,
-                adoptionStatus = it.adoptionStatus, publishedAt = it.publishedAt)
-        }
-        return PaginatedAnimals(animals, Pagination(9,9))
+        return PaginatedAnimals(animals, Pagination(pageToLoad,numberOfItems))
     }
 
 
