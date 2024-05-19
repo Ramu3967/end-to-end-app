@@ -17,6 +17,7 @@ buildscript{
         set("truthVersion","1.1.2")
         set("kotlinVersion","1.7.1")
         set("roomVersion","2.4.2")
+        set("androidxCoreTestingVersion","2.1.0")
     }
 
 }
