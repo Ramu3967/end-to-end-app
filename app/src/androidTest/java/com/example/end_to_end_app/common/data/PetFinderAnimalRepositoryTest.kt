@@ -12,6 +12,9 @@ import com.example.end_to_end_app.common.data.cache.RoomCache
 import com.example.end_to_end_app.common.data.di.ModuleCache
 import com.example.end_to_end_app.common.data.di.ModulePreferences
 import com.example.end_to_end_app.common.data.preferences.FakePreferences
+import com.example.end_to_end_app.common.data.preferences.IPreferences
+import com.google.common.truth.Truth.assertThat
+import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,8 +23,12 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import retrofit2.Retrofit
 import java.time.Instant
 import javax.inject.Inject
@@ -37,7 +44,9 @@ class PetFinderAnimalRepositoryTest{
 
     // dependencies
     private lateinit var api: IPetFinderApi
-    private lateinit var cache: ICache
+//    private lateinit var cache: ICache
+    @Inject lateinit var preferences: IPreferences
+    @Inject lateinit var cache: ICache
     @Inject
     lateinit var apiAnimalMapper: ApiAnimalMapper
 
@@ -49,9 +58,14 @@ class PetFinderAnimalRepositoryTest{
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @Inject
+    lateinit var retrofitBuilder: Retrofit.Builder
+
     // as the ModuleCache is uninstalled, you can't use its deps. Instead use the following test module.
     @Inject
     lateinit var database: PetDatabase
+
+
 
     // uses an inMemory database for storage
     @Module @InstallIn(SingletonComponent::class)
@@ -63,15 +77,27 @@ class PetFinderAnimalRepositoryTest{
                 PetDatabase::class.java
             ).allowMainThreadQueries().build()
         }
+
+        @Provides
+        fun providePreferences(): IPreferences {
+            return FakePreferences()
+        }
+
+        @Provides
+        @Singleton
+        fun provideCache(database: PetDatabase): ICache {
+            return RoomCache(database.getAnimalsDao(), database.getOrganizationDao())
+        }
     }
+
 
     /**
      * as the ModulePreferences is removed, (other way of build test dep graph - instead of creating
      * a new module), using a custom map-based preferences for authInterceptor
      */
-
-    @BindValue
-    val preferences = FakePreferences()
+//
+//    @BindValue
+//    val preferences = FakePreferences()
 
     /**
      * using a fake server for responses from the Okhttp's MockWebServer
@@ -93,7 +119,37 @@ class PetFinderAnimalRepositoryTest{
 
         //deps
         cache = RoomCache(database.getAnimalsDao(), database.getOrganizationDao())
+        api = retrofitBuilder
+            .baseUrl(fakeServer.baseEndpoint) // overriding the endpoint
+            .build()
+            .create(IPetFinderApi::class.java)
 
+        sut = PetFinderAnimalRepository(
+            api, cache, apiAnimalMapper
+        )
+    }
+
+    @After
+    fun teardown(){ fakeServer.shutdown()}
+
+    @Test
+    fun requestMoreAnimals_apiCall_foundInDb(){
+        runBlocking {
+            //Given
+            fakeServer.setHappyPathDispatcher()
+            // when
+            val paginatedAnimals = sut.requestMoreAnimals(1,10)
+            val animal = paginatedAnimals.animals.first()
+            sut.saveAnimals(listOf(animal))
+            // then
+            val animalsFlow = sut.getAnimals()
+            val animalsList = animalsFlow.toList() // Collect the flow to a list
+
+
+            // Assert that the animal is found in the database
+            assertThat(animalsList.first().first().id).isEqualTo(124)
+//            assertEquals(animal.id, foundAnimal?.id)
+        }
     }
 
 }
