@@ -40,7 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun AnimalsSearchScreen() {
     val viewModel: SearchAnimalsViewModel = hiltViewModel()
-    viewModel.onEvent(SearchAnimalEvents.GetAnimalTypesEvent)
+    viewModel.onEvent(SearchAnimalEvents.PrepareForSearchEvent)
     val composeState = viewModel.state.collectAsState()
     Column {
         Row(modifier = Modifier.fillMaxWidth()) {

@@ -39,5 +39,9 @@ abstract class DaoAnimals {
 
     @Query("select distinct type from animals")
     abstract fun getAllTypes():List<String>
+
+
+    @Query("select * from animals where name like '%' || :name || '%' and  age like '%' || :age || '%' and type like '%' || :type || '%'")
+    abstract fun searchAnimalsWith(name: String, age: String, type: String): Flow<List<CachedAnimalAggregate>>
 }
 

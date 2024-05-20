@@ -15,4 +15,6 @@ interface ICache {
     suspend fun getNearbyAnimals(): Flow<List<CachedAnimalAggregate>>
 
     suspend fun getAllTypes(): List<String>
+
+    suspend fun searchAnimalsWith(input: String, age: String, type: String): Flow<List<CachedAnimalAggregate>>
 }

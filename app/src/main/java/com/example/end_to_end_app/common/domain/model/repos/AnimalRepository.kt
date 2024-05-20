@@ -16,4 +16,6 @@ interface AnimalRepository {
     suspend fun getAnimalTypes(): List<String>
 
     fun getAnimalAges(): List<Age>
+
+    suspend fun searchCachedAnimalsWith(input: String, age: String, type: String): Flow<List<Animal>>
 }

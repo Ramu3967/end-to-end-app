@@ -18,13 +18,13 @@ class SearchAnimalsViewModel @Inject constructor(
     private val getSearchFilters: GetSearchFilters
 ): ViewModel() {
 
-    private val _state = MutableStateFlow(SearchAnimalState())
-    val state: StateFlow<SearchAnimalState>
+    private val _state = MutableStateFlow(SearchAnimalViewState())
+    val state: StateFlow<SearchAnimalViewState>
         get() = _state.asStateFlow()
 
     fun onEvent(event:SearchAnimalEvents ){
         when(event){
-            SearchAnimalEvents.GetAnimalTypesEvent -> {
+            SearchAnimalEvents.PrepareForSearchEvent -> {
                 Log.d("AnimalSearchVM", "onEvent: animal-types event")
                 viewModelScope.launch(Dispatchers.IO) {
                     val searchFilters = getSearchFilters()

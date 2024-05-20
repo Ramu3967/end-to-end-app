@@ -64,7 +64,19 @@ class PetFinderAnimalRepository @Inject constructor(
     }
 
     override fun getAnimalAges(): List<Age> {
-        return Age.values().toList()
+        return Age.entries
+    }
+
+    override suspend fun searchCachedAnimalsWith(
+        input: String,
+        age: String,
+        type: String
+    ): Flow<List<Animal>> = cache.searchAnimalsWith(input,age, type).map {cachedAnimals ->
+        cachedAnimals.map {
+            it.animal.toAnimalDomain(
+                it.photos, it.videos, it.tags
+            )
+        }
     }
 
 
