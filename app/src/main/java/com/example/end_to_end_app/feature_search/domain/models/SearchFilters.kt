@@ -1,6 +1,6 @@
 package com.example.end_to_end_app.feature_search.domain.models
 
 data class SearchFilters(
-    private val ages: List<String>,
-    private val types: List<String>
+    val ages: List<String>,
+    val types: List<String>
 )

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,11 +30,6 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.example.end_to_end_app.R
 
 
-class AnimalsNearYouComposable {
-}
-
-
-
 @Composable
 fun AnimalsNearYouScreen() {
     val viewModel: AnimalsNearYouViewModel = hiltViewModel()
@@ -43,9 +37,7 @@ fun AnimalsNearYouScreen() {
     handleFailure(animalState.failure)
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Button(onClick = { }) {
-            Text(text = "Send Event")
-        }
+
         Spacer(modifier = Modifier.height(10.dp))
 
         Box(modifier = Modifier.fillMaxSize()) {

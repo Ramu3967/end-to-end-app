@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,10 +34,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Preview
 @Composable
 fun AnimalsSearchScreen() {
+    val viewModel: SearchAnimalsViewModel = hiltViewModel()
+    viewModel.onEvent(SearchAnimalEvents.GetAnimalTypesEvent)
+    val composeState = viewModel.state.collectAsState()
     Column {
         Row(modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(
@@ -65,19 +70,20 @@ fun AnimalsSearchScreen() {
             )
         }
 
-        PreviewDropdownExample()
+        Row {
+            DropdownComp(items = composeState.value.ageFilterValues)
+            DropdownComp(items = composeState.value.typeFilterValues)
+        }
 
     }
 
 }
 
 @Composable
-fun DropdownExample() {
-    // List of items for the dropdown
-    val items = listOf("Item 1", "Item 2", "Item 3", "Item 4")
+fun DropdownComp(items: List<String> = listOf("age1","age2","age3","age4")) {
 
     // State to hold the selected item
-    var selectedItem by remember { mutableStateOf(items.first()) }
+    var selectedItem by remember { mutableStateOf(items.firstOrNull() ?: "Any") }
 
     // State to manage the dropdown menu visibility
     var expanded by remember { mutableStateOf(false) }
@@ -86,7 +92,6 @@ fun DropdownExample() {
         modifier = Modifier
             .padding(16.dp)
     ) {
-        // Dropdown toggle button
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -99,11 +104,9 @@ fun DropdownExample() {
 
                 readOnly = true,
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
                     .height(56.dp)
                     .border(1.dp, Color.Gray, MaterialTheme.shapes.small)
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 8.dp)
                     .clickable(onClick = { expanded = true })
             )
 
@@ -117,14 +120,13 @@ fun DropdownExample() {
             }
         }
 
-        // Dropdown menu
+
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
                 .width(IntrinsicSize.Min)
         ) {
-            // Create a dropdown item for each item in the list
             items.forEach { item ->
                 DropdownMenuItem({
                     Text(text = item)
@@ -137,10 +139,4 @@ fun DropdownExample() {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewDropdownExample() {
-    DropdownExample()
 }
