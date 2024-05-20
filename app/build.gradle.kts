@@ -102,7 +102,8 @@ dependencies {
     //compose-deps
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation ("com.github.bumptech.glide:compose:1.0.0-alpha.1")
-//    implementation ("androidx.compose.material:material:1.2.0")
+    implementation ("androidx.navigation:navigation-compose:2.4.0-beta02")
+
 
 
     // for unit tests

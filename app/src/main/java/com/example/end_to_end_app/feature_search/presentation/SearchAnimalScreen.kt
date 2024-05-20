@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun SearchScreen() {
+fun AnimalsSearchScreen() {
     Column {
         Row(modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(
