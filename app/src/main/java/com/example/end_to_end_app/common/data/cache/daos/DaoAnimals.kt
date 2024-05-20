@@ -36,5 +36,8 @@ abstract class DaoAnimals {
             )
         }
     }
+
+    @Query("select distinct type from animals")
+    abstract suspend fun getAllTypes():List<String>
 }
 

@@ -6,6 +6,7 @@ import com.example.end_to_end_app.common.data.cache.ICache
 import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedAnimalAggregate
 import com.example.end_to_end_app.common.data.cache.model.cachedorganization.CachedOrganization
 import com.example.end_to_end_app.common.domain.model.animal.Animal
+import com.example.end_to_end_app.common.domain.model.animal.details.Age
 import com.example.end_to_end_app.common.domain.model.animal.details.AnimalWithDetails
 import com.example.end_to_end_app.common.domain.model.pagination.PaginatedAnimals
 import com.example.end_to_end_app.common.domain.model.pagination.Pagination
@@ -56,6 +57,14 @@ class PetFinderAnimalRepository @Inject constructor(
         saveAnimals(animals)
 
         return PaginatedAnimals(animals, Pagination(pageToLoad,numberOfItems))
+    }
+
+    override suspend fun getAnimalTypes(): List<String> {
+        return cache.getAllTypes()
+    }
+
+    override fun getAnimalAges(): List<Age> {
+        return Age.values().toList()
     }
 
 

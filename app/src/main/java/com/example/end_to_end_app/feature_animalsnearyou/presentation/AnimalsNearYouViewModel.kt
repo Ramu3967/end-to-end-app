@@ -1,10 +1,10 @@
-package com.example.end_to_end_app.animalsnearyou.presentation
+package com.example.end_to_end_app.feature_animalsnearyou.presentation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.end_to_end_app.animalsnearyou.domain.usecases.GetAnimals
-import com.example.end_to_end_app.animalsnearyou.domain.usecases.RequestNextPageOfAnimals
+import com.example.end_to_end_app.feature_animalsnearyou.domain.usecases.GetAnimals
+import com.example.end_to_end_app.feature_animalsnearyou.domain.usecases.RequestNextPageOfAnimals
 import com.example.end_to_end_app.common.domain.NetworkUnavailableException
 import com.example.end_to_end_app.common.domain.NoMoreAnimalsException
 import com.example.end_to_end_app.common.domain.model.pagination.Pagination
@@ -13,7 +13,6 @@ import com.example.end_to_end_app.common.presentation.model.mappers.UiAnimalMapp
 import com.example.end_to_end_app.common.utils.createExceptionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

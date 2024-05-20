@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.animalsnearyou.presentation
+package com.example.end_to_end_app.feature_animalsnearyou.presentation
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box

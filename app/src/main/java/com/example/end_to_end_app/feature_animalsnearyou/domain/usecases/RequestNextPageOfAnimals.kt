@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.animalsnearyou.domain.usecases
+package com.example.end_to_end_app.feature_animalsnearyou.domain.usecases
 
 import com.example.end_to_end_app.common.domain.NoMoreAnimalsException
 import com.example.end_to_end_app.common.domain.model.pagination.Pagination

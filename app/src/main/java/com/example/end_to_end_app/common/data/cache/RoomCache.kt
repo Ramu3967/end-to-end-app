@@ -21,4 +21,8 @@ class RoomCache @Inject constructor(
     override suspend fun getNearbyAnimals(): Flow<List<CachedAnimalAggregate>> {
         return daoAnimals.getAllAnimals()
     }
+
+    override suspend fun getAllTypes(): List<String> {
+        return daoAnimals.getAllTypes()
+    }
 }

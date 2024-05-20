@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.animalsnearyou.presentation
+package com.example.end_to_end_app.feature_animalsnearyou.presentation
 
 import com.example.end_to_end_app.common.presentation.model.UIAnimal
 
