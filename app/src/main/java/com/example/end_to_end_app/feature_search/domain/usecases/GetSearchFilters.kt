@@ -4,7 +4,6 @@ import com.example.end_to_end_app.common.domain.model.animal.details.Age
 import com.example.end_to_end_app.common.domain.model.repos.AnimalRepository
 import com.example.end_to_end_app.feature_search.domain.models.SearchFilters
 import java.util.Locale
-import javax.inject.Inject
 
 /**
  * This use-case is used to get all the animal types and ages to populate the spinners for searching.
