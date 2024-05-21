@@ -22,17 +22,39 @@ class SearchAnimalsViewModel @Inject constructor(
     val state: StateFlow<SearchAnimalViewState>
         get() = _state.asStateFlow()
 
+
+    private val queryInputFlow = MutableStateFlow("")
+    private val ageInputFlow = MutableStateFlow("")
+    private val typeInputFlow = MutableStateFlow("")
+
     fun onEvent(event:SearchAnimalEvents ){
         when(event){
-            SearchAnimalEvents.PrepareForSearchEvent -> {
-                Log.d("AnimalSearchVM", "onEvent: animal-types event")
+            is SearchAnimalEvents.PrepareForSearchEvent -> {
+                Log.d("AnimalSearchVM", "onEvent: prepare search event")
                 viewModelScope.launch(Dispatchers.IO) {
                     val searchFilters = getSearchFilters()
                     updateStateWithFilterValues(searchFilters.ages,searchFilters.types)
                 }
             }
-            else -> {}
+            is SearchAnimalEvents.AgeValueSelected ->{  updateAgeInput(event.age)
+                Log.d("AnimalSearchVM", "onEvent: age event")}
+            is SearchAnimalEvents.TypeValueSelected ->{  updateTypeInput(event.type)
+                Log.d("AnimalSearchVM", "onEvent: type event")}
+            is SearchAnimalEvents.QueryInput ->{  updateQueryInput(event.input)
+                Log.d("AnimalSearchVM", "onEvent: query event")}
         }
+    }
+
+    private fun updateQueryInput(input: String) {
+        queryInputFlow.value = input
+    }
+
+    private fun updateTypeInput(type: String) {
+        typeInputFlow.value = type
+    }
+
+    private fun updateAgeInput(age: String) {
+        ageInputFlow.value = age
     }
 
     private fun updateStateWithFilterValues(ages: List<String>, types: List<String>){
@@ -41,4 +63,6 @@ class SearchAnimalsViewModel @Inject constructor(
             it.copy(ageFilterValues = ages, typeFilterValues =  types)
         }
     }
+
+
 }

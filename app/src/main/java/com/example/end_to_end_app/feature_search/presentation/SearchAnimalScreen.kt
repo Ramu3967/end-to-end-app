@@ -42,45 +42,55 @@ fun AnimalsSearchScreen() {
     val viewModel: SearchAnimalsViewModel = hiltViewModel()
     viewModel.onEvent(SearchAnimalEvents.PrepareForSearchEvent)
     val composeState = viewModel.state.collectAsState()
+
     Column {
         Row(modifier = Modifier.fillMaxWidth()) {
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                placeholder = {
-                    Text(
-                        text = "Search for names or breeds",
-                        color = Color.Gray,
-                        modifier = Modifier
-                            .padding(start = 60.dp)
-                    )
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    disabledContainerColor = Color.White,
-                    cursorColor = Color.Gray,
-                    focusedBorderColor = Color.Gray,
-                    unfocusedBorderColor = Color.Gray,
-                ),
-                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFF495E57))
-            )
+            SearchView{viewModel.onEvent(SearchAnimalEvents.QueryInput(it))}
         }
 
         Row {
-            DropdownComp(items = composeState.value.ageFilterValues)
-            DropdownComp(items = composeState.value.typeFilterValues)
+            DropdownView(items = composeState.value.ageFilterValues) {viewModel.onEvent(SearchAnimalEvents.AgeValueSelected(it))}
+            DropdownView(items = composeState.value.typeFilterValues) {viewModel.onEvent(SearchAnimalEvents.TypeValueSelected(it))}
         }
-
     }
-
 }
 
 @Composable
-fun DropdownComp(items: List<String> = listOf("age1","age2","age3","age4")) {
+fun SearchView(action: (String) -> Unit) {
+    var text by remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(
+        value = text,
+        onValueChange = {
+            text = it
+            action(it)
+        },
+        placeholder = {
+            Text(
+                text = "Search for names or breeds",
+                color = Color.Gray,
+                modifier = Modifier
+                    .padding(start = 60.dp)
+            )
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
+            cursorColor = Color.Gray,
+            focusedBorderColor = Color.Gray,
+            unfocusedBorderColor = Color.Gray,
+        ),
+        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF495E57))
+    )
+}
+
+@Composable
+fun DropdownView(items: List<String> = listOf("age1","age2","age3","age4"), action:(String)-> Unit) {
 
     // State to hold the selected item
     var selectedItem by remember { mutableStateOf(items.firstOrNull() ?: "Any") }
@@ -120,7 +130,6 @@ fun DropdownComp(items: List<String> = listOf("age1","age2","age3","age4")) {
             }
         }
 
-
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
@@ -134,6 +143,7 @@ fun DropdownComp(items: List<String> = listOf("age1","age2","age3","age4")) {
                     onClick = {
                         selectedItem = item
                         expanded = false
+                        action(item)
                     }
                 )
             }
