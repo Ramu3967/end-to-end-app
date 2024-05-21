@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.end_to_end_app.common.domain.model.animal.Animal
+import com.example.end_to_end_app.common.domain.model.pagination.Pagination
 import com.example.end_to_end_app.common.presentation.model.mappers.UiAnimalMapper
 import com.example.end_to_end_app.common.utils.createExceptionHandler
 import com.example.end_to_end_app.feature_search.domain.models.SearchParameters
 import com.example.end_to_end_app.feature_search.domain.models.SearchResults
 import com.example.end_to_end_app.feature_search.domain.usecases.GetSearchFilters
 import com.example.end_to_end_app.feature_search.domain.usecases.SearchAnimals
+import com.example.end_to_end_app.feature_search.domain.usecases.SearchAnimalsRemotely
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class SearchAnimalsViewModel @Inject constructor(
     private val getSearchFilters: GetSearchFilters,
     private val searchAnimals: SearchAnimals,
+    private val searchAnimalsRemotely: SearchAnimalsRemotely,
     private val uiAnimalMapper: UiAnimalMapper
 ): ViewModel() {
 
@@ -30,7 +33,7 @@ class SearchAnimalsViewModel @Inject constructor(
     val state: StateFlow<SearchAnimalViewState>
         get() = _state.asStateFlow()
 
-
+    private var currentPage = 0
     private val queryInputFlow = MutableStateFlow("")
     private val ageInputFlow = MutableStateFlow("")
     private val typeInputFlow = MutableStateFlow("")
@@ -85,9 +88,27 @@ class SearchAnimalsViewModel @Inject constructor(
 
     private fun onEmptyCacheResults(searchParams: SearchParameters) {
         Log.e("AnimalSearchVM", "onEmptyCacheResults: $searchParams", )
-        _state.update {
-            it.copy(searchResults = emptyList())
+
+        _state.update { oldState ->
+            oldState.updateToSearchingRemotely()
         }
+        searchRemotely(searchParams)
+    }
+
+    private fun searchRemotely(searchParams: SearchParameters) {
+        // another use-case
+        val exceptionHandler = viewModelScope
+            .createExceptionHandler("Error in getting remote animals"){
+                onFailure(it)
+            }
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            val k= searchAnimalsRemotely(searchParams, 4/*testing*/, Pagination.DEFAULT_PAGE_SIZE)
+            onPaginationInfoObtained(k)
+        }
+    }
+
+    private fun onPaginationInfoObtained(pagination: Pagination) {
+        currentPage = pagination.currentPage
     }
 
     private fun updateQueryInput(input: String) {

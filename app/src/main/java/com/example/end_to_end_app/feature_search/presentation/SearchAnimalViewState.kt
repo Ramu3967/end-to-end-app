@@ -17,7 +17,9 @@ data class SearchAnimalViewState(
         return copy(failure = throwable)
     }
 
-
+    fun updateToSearchingRemotely(): SearchAnimalViewState {
+        return copy(searchingRemotely = true, searchResults = emptyList())
+    }
 
 
 }
