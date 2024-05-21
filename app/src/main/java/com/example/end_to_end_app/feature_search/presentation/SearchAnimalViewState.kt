@@ -4,7 +4,7 @@ import com.example.end_to_end_app.common.presentation.model.UIAnimal
 
 data class SearchAnimalViewState(
     val loading: Boolean = true,
-    val dataAnimals: List<UIAnimal> = emptyList(),
+    val searchResults: List<UIAnimal> = emptyList(), // could be local or remote
     val ageFilterValues: List<String> = emptyList(),
     val typeFilterValues: List<String> = emptyList(),
     val failure: Throwable? = null,

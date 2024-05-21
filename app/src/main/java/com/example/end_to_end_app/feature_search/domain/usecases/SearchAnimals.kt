@@ -24,8 +24,8 @@ class SearchAnimals @Inject constructor(
         typeInput: Flow<String>
     ): Flow<SearchResults> {
         val combinedFlow = combine(
-            // no spaces, and the min len > 2
-            textInput.map { it.trim() }. filter { it.length > 2 },
+            // no spaces, and the min len >= 2
+            textInput.debounce(1500L).map { it.trim() }. filter { it.length >= 2 },
             ageInput.replaceUIEmptyValue(),
             typeInput.replaceUIEmptyValue()
         ){ input, age, type ->

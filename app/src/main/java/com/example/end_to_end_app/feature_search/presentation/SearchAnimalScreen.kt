@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -24,6 +27,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +39,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.end_to_end_app.common.presentation.model.AnimalUIElement
 
 @Preview
 @Composable
@@ -52,6 +57,8 @@ fun AnimalsSearchScreen() {
             DropdownView(items = composeState.value.ageFilterValues) {viewModel.onEvent(SearchAnimalEvents.AgeValueSelected(it))}
             DropdownView(items = composeState.value.typeFilterValues) {viewModel.onEvent(SearchAnimalEvents.TypeValueSelected(it))}
         }
+
+        AnimalSearchGrid(composeState.value)
     }
 }
 
@@ -88,6 +95,26 @@ fun SearchView(action: (String) -> Unit) {
             .background(Color(0xFF495E57))
     )
 }
+
+@Composable
+fun AnimalSearchGrid(
+    animalState: SearchAnimalViewState
+) {
+
+    // Observe the scroll state of the LazyGrid
+    val lazyGridState = rememberLazyGridState()
+
+    // Display the list of items in the LazyGrid
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        state = lazyGridState
+    ) {
+        items(animalState.searchResults.size) {
+            AnimalUIElement(animalState.searchResults[it].photo, animalState.searchResults[it].name)
+        }
+    }
+}
+
 
 @Composable
 fun DropdownView(items: List<String> = listOf("age1","age2","age3","age4"), action:(String)-> Unit) {

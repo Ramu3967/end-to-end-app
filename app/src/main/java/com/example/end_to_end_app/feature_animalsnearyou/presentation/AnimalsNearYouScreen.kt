@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.end_to_end_app.common.presentation.model.composables.AnimalUIElement
+import com.example.end_to_end_app.common.presentation.model.AnimalUIElement
 
 
 @Composable

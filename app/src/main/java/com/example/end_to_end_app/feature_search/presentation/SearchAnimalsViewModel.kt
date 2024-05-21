@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class SearchAnimalsViewModel @Inject constructor(
@@ -86,6 +85,9 @@ class SearchAnimalsViewModel @Inject constructor(
 
     private fun onEmptyCacheResults(searchParams: SearchParameters) {
         Log.e("AnimalSearchVM", "onEmptyCacheResults: $searchParams", )
+        _state.update {
+            it.copy(searchResults = emptyList())
+        }
     }
 
     private fun updateQueryInput(input: String) {
@@ -106,7 +108,7 @@ class SearchAnimalsViewModel @Inject constructor(
             uiAnimalMapper.mapToView(it)
         }
         _state.update {
-            it.copy(dataAnimals = uiAnimals)
+            it.copy(searchResults = uiAnimals)
         }
     }
 
