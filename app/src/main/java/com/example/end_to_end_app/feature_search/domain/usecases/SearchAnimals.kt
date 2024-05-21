@@ -1,9 +1,14 @@
 package com.example.end_to_end_app.feature_search.domain.usecases
 
 import com.example.end_to_end_app.common.domain.model.repos.AnimalRepository
+import com.example.end_to_end_app.feature_search.domain.models.SearchParameters
+import com.example.end_to_end_app.feature_search.domain.models.SearchResults
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -17,15 +22,18 @@ class SearchAnimals @Inject constructor(
         textInput: Flow<String>,
         ageInput: Flow<String>,
         typeInput: Flow<String>
-    ){
+    ): Flow<SearchResults> {
         val combinedFlow = combine(
             // no spaces, and the min len > 2
             textInput.map { it.trim() }. filter { it.length > 2 },
             ageInput.replaceUIEmptyValue(),
             typeInput.replaceUIEmptyValue()
         ){ input, age, type ->
-            animalRepository.searchCachedAnimalsWith(input, age, type)
+            animalRepository.searchCachedAnimalsWith(input, age, type).map {
+                SearchResults(it, SearchParameters(input, age, type))
+            }
         }
+        return combinedFlow.flatMapLatest { it }
     }
 
     // replace the "Any" with empty string for a broader api search
