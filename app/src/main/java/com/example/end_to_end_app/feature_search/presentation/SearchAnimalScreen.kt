@@ -27,7 +27,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -146,7 +145,6 @@ fun DropdownView(items: List<String> = listOf("age1","age2","age3","age4"), acti
                     .padding(horizontal = 8.dp)
                     .clickable(onClick = { expanded = true })
             )
-
             IconButton(
                 onClick = { expanded = !expanded }
             ) {

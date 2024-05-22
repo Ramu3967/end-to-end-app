@@ -35,7 +35,7 @@ class SearchAnimalsViewModel @Inject constructor(
     val state: StateFlow<SearchAnimalViewState>
         get() = _state.asStateFlow()
 
-    private var currentPage = 0
+    private var currentPage = 1
     private val queryInputFlow = MutableStateFlow("")
     private val ageInputFlow = MutableStateFlow("")
     private val typeInputFlow = MutableStateFlow("")
@@ -63,10 +63,21 @@ class SearchAnimalsViewModel @Inject constructor(
                 Log.d("AnimalSearchVM", "onEvent: age event")}
             is SearchAnimalEvents.TypeValueSelected ->{  updateTypeInput(event.type)
                 Log.d("AnimalSearchVM", "onEvent: type event")}
-            is SearchAnimalEvents.QueryInput ->{  updateQueryInput(event.input)
+            is SearchAnimalEvents.QueryInput ->{  updateQuery(event.input)
                 Log.d("AnimalSearchVM", "onEvent: query event")}
             else -> Log.e("SearchAnimalsVM", "onSearchParamsUpdate: Wrong Search Event" )
         }
+    }
+
+    private fun updateQuery(input: String) {
+        updateQueryInput(input)
+        if(input.isEmpty()) setSearchingState()
+        else setNoQuerySearchState()
+        resetPagination()
+    }
+
+    private fun resetPagination() {
+        currentPage = 1
     }
 
     private fun loadFilterValues() {
@@ -117,7 +128,7 @@ class SearchAnimalsViewModel @Inject constructor(
                 onFailure(it)
             }
         remoteSearchJob = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            val k= searchAnimalsRemotely(searchParams, 4/*testing*/, Pagination.DEFAULT_PAGE_SIZE)
+            val k= searchAnimalsRemotely(searchParams, currentPage++, Pagination.DEFAULT_PAGE_SIZE)
             onPaginationInfoObtained(k)
         }
         remoteSearchJob.invokeOnCompletion {
@@ -149,6 +160,15 @@ class SearchAnimalsViewModel @Inject constructor(
         _state.update {
             it.copy(searchResults = uiAnimals)
         }
+    }
+
+    private fun setSearchingState(){
+        _state.update { oldState -> oldState.updateToSearching()
+        }
+    }
+
+    private fun setNoQuerySearchState(){
+        _state.update { oldState -> oldState.updateToNoSearchQuery() }
     }
 
     private fun updateStateWithFilterValues(ages: List<String>, types: List<String>){

@@ -21,5 +21,19 @@ data class SearchAnimalViewState(
         return copy(searchingRemotely = true, searchResults = emptyList())
     }
 
+    fun updateToSearching(): SearchAnimalViewState {
+        return copy(
+            searchingRemotely = true,
+            noRemoteResults = false
+        )
+    }
+
+    fun updateToNoSearchQuery(): SearchAnimalViewState {
+        return copy(
+            searchResults = emptyList(),
+            noRemoteResults = false
+        )
+    }
+
 
 }
