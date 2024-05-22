@@ -14,11 +14,13 @@ import com.example.end_to_end_app.feature_search.domain.usecases.SearchAnimals
 import com.example.end_to_end_app.feature_search.domain.usecases.SearchAnimalsRemotely
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +40,9 @@ class SearchAnimalsViewModel @Inject constructor(
     private val ageInputFlow = MutableStateFlow("")
     private val typeInputFlow = MutableStateFlow("")
 
+    // to cancel previous searches
+    private var remoteSearchJob: Job =  Job()
+
     fun onEvent(event:SearchAnimalEvents ){
         when(event){
             is SearchAnimalEvents.PrepareForSearchEvent -> {
@@ -45,12 +50,22 @@ class SearchAnimalsViewModel @Inject constructor(
                 loadFilterValues()
                 setupSearchSubscription()
             }
+            else -> onSearchParamsUpdate(event)
+
+        }
+    }
+
+    private fun onSearchParamsUpdate(event: SearchAnimalEvents) {
+        // cancel previous searches
+        remoteSearchJob.cancel(CancellationException("New search params incoming!!"))
+        when(event){
             is SearchAnimalEvents.AgeValueSelected ->{  updateAgeInput(event.age)
                 Log.d("AnimalSearchVM", "onEvent: age event")}
             is SearchAnimalEvents.TypeValueSelected ->{  updateTypeInput(event.type)
                 Log.d("AnimalSearchVM", "onEvent: type event")}
             is SearchAnimalEvents.QueryInput ->{  updateQueryInput(event.input)
                 Log.d("AnimalSearchVM", "onEvent: query event")}
+            else -> Log.e("SearchAnimalsVM", "onSearchParamsUpdate: Wrong Search Event" )
         }
     }
 
@@ -101,9 +116,12 @@ class SearchAnimalsViewModel @Inject constructor(
             .createExceptionHandler("Error in getting remote animals"){
                 onFailure(it)
             }
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+        remoteSearchJob = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             val k= searchAnimalsRemotely(searchParams, 4/*testing*/, Pagination.DEFAULT_PAGE_SIZE)
             onPaginationInfoObtained(k)
+        }
+        remoteSearchJob.invokeOnCompletion {
+            Log.e("AnimalSearchVm", "searchRemotely: ${it?.message}" )
         }
     }
 
