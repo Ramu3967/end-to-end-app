@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,9 +51,12 @@ import com.example.end_to_end_app.common.presentation.model.UIAnimal
 @Composable
 fun AnimalsSearchScreen() {
     val viewModel: SearchAnimalsViewModel = hiltViewModel()
-    viewModel.onEvent(SearchAnimalEvents.PrepareForSearchEvent)
+    LaunchedEffect(Unit){
+        viewModel.onEvent(SearchAnimalEvents.PrepareForSearchEvent)
+    }
     val composeState = viewModel.state.collectAsState()
 
+    Log.e("AnimalsSearchScreen", "AnimalsSearchScreenMAIN: composed")
 
     Column {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -73,6 +77,7 @@ fun SearchView(action: (String) -> Unit) {
     var text by remember {
         mutableStateOf("")
     }
+    Log.e("AnimalsSearchScreen", "SearchView: composed")
     OutlinedTextField(
         value = text,
         onValueChange = {
@@ -137,6 +142,7 @@ fun UpdateScreens(state: SearchAnimalViewState, ageAction:(String)-> Unit, typeA
     NoResultsView(vis = areRemoteResultsFound)
 
     HandleFailures(failure = failure)
+    Log.e("AnimalsSearchScreen", "UpdateScreens: composed")
 }
 
 @Composable
@@ -228,18 +234,18 @@ fun UpdateResultsInGrid(searchResults: List<UIAnimal>) {
 fun NoResultsView(vis:Boolean) {
     if(vis)
         Column (modifier = Modifier.size(200.dp)){
-        Image(painter = painterResource(id = R.drawable.dog_placeholder), contentDescription = "")
-        Text(text = "Sorry No Results")
-    }
+            Image(painter = painterResource(id = R.drawable.dog_placeholder), contentDescription = "")
+            Text(text = "Sorry No Results")
+        }
 }
 
 @Composable
 fun SearchInProgressViews(vis:Boolean) {
     if(vis)
-         Column (modifier = Modifier.size(200.dp)){
-        Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "")
-        Text(text = "Please wait, search in progress")
-    }
+        Column (modifier = Modifier.size(200.dp)){
+            Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "")
+            Text(text = "Please wait, search in progress")
+        }
 }
 
 //@Preview
@@ -255,6 +261,6 @@ fun InitialStateViews(vis:Boolean ) {
 @Composable
 fun HandleFailures(failure: Throwable?) {
     if (failure != null) {
-        Log.e("SearchScreen", "HandleFailures: ${failure.message}")
+        Log.d("SearchScreen", "HandleFailures: ${failure.message}")
     }
 }
