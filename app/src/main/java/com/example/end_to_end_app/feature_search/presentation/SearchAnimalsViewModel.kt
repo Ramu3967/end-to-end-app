@@ -3,6 +3,7 @@ package com.example.end_to_end_app.feature_search.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.end_to_end_app.common.domain.NoMoreAnimalsException
 import com.example.end_to_end_app.common.domain.model.animal.Animal
 import com.example.end_to_end_app.common.domain.model.pagination.Pagination
 import com.example.end_to_end_app.common.presentation.model.mappers.UiAnimalMapper
@@ -158,7 +159,7 @@ class SearchAnimalsViewModel @Inject constructor(
             uiAnimalMapper.mapToView(it)
         }
         _state.update {
-            it.copy(searchResults = uiAnimals)
+            it.updateToHasSearchedResults(uiAnimals)
         }
     }
 
@@ -179,7 +180,15 @@ class SearchAnimalsViewModel @Inject constructor(
     }
 
     private fun onFailure(throwable: Throwable) {
-        Log.e("AnimalSearchVM", "onFailure: $throwable ")
+        when(throwable){
+            is NoMoreAnimalsException -> {
+                _state.update { it.updateToNoResultsAvailable() }
+            }
+            else -> {
+                _state.update { it.updateToHasFailure(throwable) }
+                Log.e("AnimalSearchVM", "onFailure: $throwable ")
+            }
+        }
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.end_to_end_app.feature_search.presentation
 
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -34,11 +37,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.end_to_end_app.R
 import com.example.end_to_end_app.common.presentation.model.AnimalUIElement
+import com.example.end_to_end_app.common.presentation.model.UIAnimal
 
 @Preview
 @Composable
@@ -47,15 +53,16 @@ fun AnimalsSearchScreen() {
     viewModel.onEvent(SearchAnimalEvents.PrepareForSearchEvent)
     val composeState = viewModel.state.collectAsState()
 
+
     Column {
         Row(modifier = Modifier.fillMaxWidth()) {
             SearchView{viewModel.onEvent(SearchAnimalEvents.QueryInput(it))}
         }
 
-        Row {
-            DropdownView(items = composeState.value.ageFilterValues) {viewModel.onEvent(SearchAnimalEvents.AgeValueSelected(it))}
-            DropdownView(items = composeState.value.typeFilterValues) {viewModel.onEvent(SearchAnimalEvents.TypeValueSelected(it))}
-        }
+        UpdateScreens(state = composeState.value,
+            ageAction = {viewModel.onEvent(SearchAnimalEvents.AgeValueSelected(it))},
+            typeAction = {viewModel.onEvent(SearchAnimalEvents.TypeValueSelected(it))}
+        )
 
         AnimalSearchGrid(composeState.value)
     }
@@ -116,6 +123,31 @@ fun AnimalSearchGrid(
 
 
 @Composable
+fun UpdateScreens(state: SearchAnimalViewState, ageAction:(String)-> Unit, typeAction:(String)-> Unit) {
+
+    val (loading, searchResults, ageFilters, typeFilters,
+        isSearchRemote, areRemoteResultsFound, failure) = state
+
+    UpdateFilterViews(ageFilters, typeFilters,
+        ageAction = ageAction,
+        typeAction = typeAction)
+    UpdateResultsInGrid(searchResults)
+    SearchInProgressViews(vis = isSearchRemote)
+    InitialStateViews(vis = loading)
+    NoResultsView(vis = areRemoteResultsFound)
+
+    HandleFailures(failure = failure)
+}
+
+@Composable
+fun UpdateFilterViews(ageFilters: List<String>, typeFilters: List<String>, ageAction:(String)-> Unit, typeAction:(String)-> Unit) {
+    Row {
+        DropdownView(items = typeFilters, action = typeAction)
+        DropdownView(items = ageFilters, action = ageAction)
+    }
+}
+
+@Composable
 fun DropdownView(items: List<String> = listOf("age1","age2","age3","age4"), action:(String)-> Unit) {
 
     // State to hold the selected item
@@ -173,5 +205,56 @@ fun DropdownView(items: List<String> = listOf("age1","age2","age3","age4"), acti
                 )
             }
         }
+    }
+}
+
+@Composable
+fun UpdateResultsInGrid(searchResults: List<UIAnimal>) {
+    // Observe the scroll state of the LazyGrid
+    val lazyGridState = rememberLazyGridState()
+
+    // Display the list of items in the LazyGrid
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        state = lazyGridState
+    ) {
+        items(searchResults.size) {
+            AnimalUIElement(searchResults[it].photo, searchResults[it].name)
+        }
+    }
+}
+
+@Composable
+fun NoResultsView(vis:Boolean) {
+    if(vis)
+        Column (modifier = Modifier.size(200.dp)){
+        Image(painter = painterResource(id = R.drawable.dog_placeholder), contentDescription = "")
+        Text(text = "Sorry No Results")
+    }
+}
+
+@Composable
+fun SearchInProgressViews(vis:Boolean) {
+    if(vis)
+         Column (modifier = Modifier.size(200.dp)){
+        Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "")
+        Text(text = "Please wait, search in progress")
+    }
+}
+
+//@Preview
+@Composable
+fun InitialStateViews(vis:Boolean ) {
+    if(vis)
+        Column (modifier = Modifier.size(200.dp)){
+            Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "")
+            Text(text = "Use the above fields to search for animals")
+        }
+}
+
+@Composable
+fun HandleFailures(failure: Throwable?) {
+    if (failure != null) {
+        Log.e("SearchScreen", "HandleFailures: ${failure.message}")
     }
 }
