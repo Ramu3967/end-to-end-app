@@ -12,4 +12,13 @@ interface IPetFinderApi {
         @Query(ApiParameters.LOCATION) postcode: String = "07097",
         @Query(ApiParameters.DISTANCE) maxDistance: Int = 100
     ): ApiPaginatedAnimals
+
+    @GET(ApiConstants.ANIMALS_ENDPOINT)
+    suspend fun getAnimalsWithParameters(
+        @Query(ApiParameters.NAME) name: String,
+        @Query(ApiParameters.AGE) age: String,
+        @Query(ApiParameters.TYPE) type: String,
+        @Query(ApiParameters.PAGE) pageToLoad: Int,
+        @Query(ApiParameters.LIMIT) pageSize: Int
+    ): ApiPaginatedAnimals
 }

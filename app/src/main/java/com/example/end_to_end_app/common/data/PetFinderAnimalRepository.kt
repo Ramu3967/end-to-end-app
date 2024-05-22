@@ -2,6 +2,7 @@ package com.example.end_to_end_app.common.data
 
 import com.example.end_to_end_app.common.data.api.IPetFinderApi
 import com.example.end_to_end_app.common.data.api.model.mappers.ApiAnimalMapper
+import com.example.end_to_end_app.common.data.api.model.mappers.ApiPaginationMapper
 import com.example.end_to_end_app.common.data.cache.ICache
 import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedAnimalAggregate
 import com.example.end_to_end_app.common.data.cache.model.cachedorganization.CachedOrganization
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class PetFinderAnimalRepository @Inject constructor(
     private val api:IPetFinderApi,
     private val cache: ICache,
-    private val apiAnimalMapper: ApiAnimalMapper
+    private val apiAnimalMapper: ApiAnimalMapper,
+    private val apiPaginationMapper: ApiPaginationMapper
 ): AnimalRepository {
 
     override suspend fun getAnimals(): Flow<List<Animal>> {
@@ -77,6 +79,19 @@ class PetFinderAnimalRepository @Inject constructor(
                 it.photos, it.videos, it.tags
             )
         }
+    }
+
+    override suspend fun requestAnimalsRemotely(
+        name: String,
+        age: String,
+        type: String,
+        pageToLoad: Int,
+        pageSize: Int
+    ): PaginatedAnimals {
+        val (apiAnimals, apiPagination) = api.getAnimalsWithParameters(name, age, type, pageToLoad, pageSize)
+        val animals = apiAnimals?.map{apiAnimalMapper.mapToDomain(it)}.orEmpty()
+        val pagination = apiPaginationMapper.mapToDomain(apiPagination)
+        return PaginatedAnimals(animals, pagination)
     }
 
 

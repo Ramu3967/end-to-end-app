@@ -18,4 +18,11 @@ interface AnimalRepository {
     fun getAnimalAges(): List<Age>
 
     suspend fun searchCachedAnimalsWith(input: String, age: String, type: String): Flow<List<Animal>>
+
+    suspend fun requestAnimalsRemotely(
+        name: String, age: String, type: String,
+        pageToLoad: Int,
+        pageSize: Int
+    ): PaginatedAnimals
+
 }
