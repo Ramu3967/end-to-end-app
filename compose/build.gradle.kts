@@ -62,7 +62,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
-    implementation(project(":app"))
+    implementation(project(":domain"))
 
     // DI
     implementation ("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")

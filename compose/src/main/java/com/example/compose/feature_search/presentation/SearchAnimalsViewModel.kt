@@ -8,11 +8,9 @@ import com.example.compose.feature_search.domain.models.SearchResults
 import com.example.compose.feature_search.domain.usecases.GetSearchFilters
 import com.example.compose.feature_search.domain.usecases.SearchAnimals
 import com.example.compose.feature_search.domain.usecases.SearchAnimalsRemotely
-import com.example.end_to_end_app.common.domain.NoMoreAnimalsException
-import com.example.end_to_end_app.common.domain.model.animal.Animal
-import com.example.end_to_end_app.common.domain.model.pagination.Pagination
-import com.example.end_to_end_app.common.presentation.model.mappers.UiAnimalMapper
-import com.example.end_to_end_app.common.utils.createExceptionHandler
+import com.example.domain.NoMoreAnimalsException
+import com.example.domain.model.animal.Animal
+import com.example.domain.model.pagination.Pagination
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
