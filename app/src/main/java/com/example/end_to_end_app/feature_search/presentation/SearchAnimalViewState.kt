@@ -34,7 +34,8 @@ data class SearchAnimalViewState(
         return copy(
             searchResults = emptyList(),
             noSearchQuery = true,
-            noRemoteResults = false
+            noRemoteResults = false,
+            searchingRemotely = false
         )
     }
 

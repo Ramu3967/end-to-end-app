@@ -72,8 +72,8 @@ class SearchAnimalsViewModel @Inject constructor(
 
     private fun updateQuery(input: String) {
         updateQueryInput(input)
-        if(input.isEmpty()) setSearchingState()
-        else setNoQuerySearchState()
+        if(input.isEmpty()) setNoQuerySearchState()
+        else setSearchingState()
         resetPagination()
     }
 
@@ -129,7 +129,7 @@ class SearchAnimalsViewModel @Inject constructor(
                 onFailure(it)
             }
         remoteSearchJob = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            val k= searchAnimalsRemotely(searchParams, currentPage++, Pagination.DEFAULT_PAGE_SIZE)
+            val k= searchAnimalsRemotely(searchParams, ++currentPage, Pagination.DEFAULT_PAGE_SIZE)
             onPaginationInfoObtained(k)
         }
         remoteSearchJob.invokeOnCompletion {

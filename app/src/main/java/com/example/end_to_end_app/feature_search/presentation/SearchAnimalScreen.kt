@@ -5,13 +5,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -40,14 +40,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.end_to_end_app.R
 import com.example.end_to_end_app.common.presentation.model.AnimalUIElement
+import com.example.end_to_end_app.common.presentation.model.MyLoader
 import com.example.end_to_end_app.common.presentation.model.UIAnimal
 
-@Preview
+//@Preview
 @Composable
 fun AnimalsSearchScreen() {
     val viewModel: SearchAnimalsViewModel = hiltViewModel()
@@ -130,15 +131,19 @@ fun AnimalSearchGrid(
 @Composable
 fun UpdateScreens(state: SearchAnimalViewState, ageAction:(String)-> Unit, typeAction:(String)-> Unit) {
 
-    val (loading, searchResults, ageFilters, typeFilters,
+    val (noSearchQuery, searchResults, ageFilters, typeFilters,
         isSearchRemote, areRemoteResultsFound, failure) = state
 
-    UpdateFilterViews(ageFilters, typeFilters,
-        ageAction = ageAction,
-        typeAction = typeAction)
-    UpdateResultsInGrid(searchResults)
-    SearchInProgressViews(vis = isSearchRemote)
-    InitialStateViews(vis = loading)
+    Column{
+        UpdateFilterViews(
+            ageFilters, typeFilters,
+            ageAction = ageAction,
+            typeAction = typeAction
+        )
+        UpdateResultsInGrid(searchResults)
+        RemoteStateViews(vis = isSearchRemote)
+    }
+    InitialStateViews(vis = noSearchQuery)
     NoResultsView(vis = areRemoteResultsFound)
 
     HandleFailures(failure = failure)
@@ -233,28 +238,32 @@ fun UpdateResultsInGrid(searchResults: List<UIAnimal>) {
 @Composable
 fun NoResultsView(vis:Boolean) {
     if(vis)
-        Column (modifier = Modifier.size(200.dp)){
-            Image(painter = painterResource(id = R.drawable.dog_placeholder), contentDescription = "")
+        Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
+            Image(painter = painterResource(id = R.drawable.no_results_pug), contentDescription = "")
             Text(text = "Sorry No Results")
         }
 }
 
 @Composable
-fun SearchInProgressViews(vis:Boolean) {
+fun RemoteStateViews(vis:Boolean) {
     if(vis)
-        Column (modifier = Modifier.size(200.dp)){
-            Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "")
-            Text(text = "Please wait, search in progress")
+        Box(contentAlignment = Alignment.TopCenter){
+            Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
+                Image(painter = painterResource(id = R.drawable.img_searching), contentDescription = "")
+                Text(text = "Please wait, search in progress")
+            }
+            MyLoader(isLoading = vis)
         }
+    
 }
 
-//@Preview
 @Composable
 fun InitialStateViews(vis:Boolean ) {
     if(vis)
-        Column (modifier = Modifier.size(200.dp)){
-            Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "")
-            Text(text = "Use the above fields to search for animals")
+        Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
+            Image(painter = painterResource(id = R.drawable.init_search, ), contentDescription = "",
+                )
+            Text(text = "Use the above fields to search for animals", fontSize = 25.sp)
         }
 }
 
