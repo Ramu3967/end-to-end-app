@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "End-to-End-App"
 include(":app")
- 
+include(":compose")
+include(":domain")

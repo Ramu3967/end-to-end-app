@@ -16,7 +16,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.end_to_end_app.feature_animalsnearyou.presentation.AnimalsNearYouScreen
-import com.example.end_to_end_app.feature_search.presentation.AnimalsSearchScreen
 
 @Composable
 fun ComposeAnimalHomeScreen(navController: NavHostController) {
@@ -28,7 +27,8 @@ fun ComposeAnimalHomeScreen(navController: NavHostController) {
             NavHost(navController = navController,
                 startDestination = DirectionsFeatureSearch.route){
                 composable(DirectionsFeatureSearch.route){
-                    AnimalsSearchScreen()
+//                    AnimalsSearchScreen() // original copy in the app. I need to replace with compose module's, but unable to import as it is not discoverable
+
                 }
                 composable(DirectionsFeatureAnimalsNearYou.route){
                     AnimalsNearYouScreen()
