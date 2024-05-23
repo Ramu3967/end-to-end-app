@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.end_to_end_app.common.presentation.model.AnimalUIElement
+import com.example.end_to_end_app.common.presentation.model.MyLoader
 
 
 @Composable
@@ -84,14 +85,4 @@ fun handleFailure(failure: Throwable?) {
     val fallbackMessage = "An error occurred. Please try again later"
     val errorMessage = unhandledMessage.ifEmpty { fallbackMessage }
     Log.e("Error-AnimalScreen", "handleFailure: $errorMessage" )
-}
-
-
-@Composable
-fun MyLoader(isLoading : Boolean) {
-    if (isLoading)
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) { CircularProgressIndicator() }
 }

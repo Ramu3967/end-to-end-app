@@ -82,10 +82,11 @@ class AnimalsNearYouViewModel @Inject constructor(
     }
 
     private fun onNewAnimals(animals: List<UIAnimal>){
+        val updatedAnimalsSet = (_state.value.dataAnimals + animals).toSet()
         _state.update { oldState ->
             oldState.copy(
                 loading = false,
-                dataAnimals = animals
+                dataAnimals = updatedAnimalsSet.toList()
             )
         }
     }
