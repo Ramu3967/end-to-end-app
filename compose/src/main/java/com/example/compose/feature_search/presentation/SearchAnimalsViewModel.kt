@@ -11,6 +11,8 @@ import com.example.compose.feature_search.domain.usecases.SearchAnimalsRemotely
 import com.example.domain.NoMoreAnimalsException
 import com.example.domain.model.animal.Animal
 import com.example.domain.model.pagination.Pagination
+import com.example.pf_utils.model.mappers.UiAnimalMapper
+import com.example.pf_utils.utils.createExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

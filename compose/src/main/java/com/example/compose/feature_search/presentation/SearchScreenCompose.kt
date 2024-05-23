@@ -43,10 +43,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.end_to_end_app.R
-import com.example.end_to_end_app.common.presentation.model.AnimalUIElement
-import com.example.end_to_end_app.common.presentation.model.MyLoader
-import com.example.end_to_end_app.common.presentation.model.UIAnimal
+import com.example.pf_utils.model.AnimalUIElement
+import com.example.pf_utils.model.MyLoader
+import com.example.pf_utils.model.UIAnimal
 
 @Composable
 fun AnimalsSearchScreen2() {
@@ -238,7 +237,7 @@ fun UpdateResultsInGrid(searchResults: List<UIAnimal>) {
 fun NoResultsView(vis:Boolean) {
     if(vis)
         Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
-            Image(painter = painterResource(id = R.drawable.no_results_pug), contentDescription = "")
+            Image(painter = painterResource(id = com.example.pf_presentation.R.drawable.no_results_pug), contentDescription = "")
             Text(text = "Sorry No Results")
         }
 }
@@ -248,7 +247,7 @@ fun RemoteStateViews(vis:Boolean) {
     if(vis)
         Box(contentAlignment = Alignment.TopCenter){
             Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
-                Image(painter = painterResource(id = R.drawable.img_searching), contentDescription = "")
+                Image(painter = painterResource(id = com.example.pf_presentation.R.drawable.img_searching), contentDescription = "")
                 Text(text = "Please wait, search in progress")
             }
             MyLoader(isLoading = vis)
@@ -260,7 +259,7 @@ fun RemoteStateViews(vis:Boolean) {
 fun InitialStateViews(vis:Boolean ) {
     if(vis)
         Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
-            Image(painter = painterResource(id = R.drawable.init_search, ), contentDescription = "",
+            Image(painter = painterResource(id = com.example.pf_presentation.R.drawable.init_search, ), contentDescription = "",
             )
             Text(text = "Use the above fields to search for animals", fontSize = 25.sp)
         }

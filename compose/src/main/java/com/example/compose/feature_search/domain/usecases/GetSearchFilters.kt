@@ -1,8 +1,8 @@
 package com.example.compose.feature_search.domain.usecases
 
 import com.example.compose.feature_search.domain.models.SearchFilters
-import com.example.end_to_end_app.common.domain.model.animal.details.Age
-import com.example.end_to_end_app.common.domain.model.repos.AnimalRepository
+import com.example.domain.model.animal.details.Age
+import com.example.domain.model.repos.AnimalRepository
 import java.util.Locale
 import javax.inject.Inject
 

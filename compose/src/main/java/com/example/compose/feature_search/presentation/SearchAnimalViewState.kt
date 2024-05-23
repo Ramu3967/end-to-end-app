@@ -1,6 +1,6 @@
 package com.example.compose.feature_search.presentation
 
-import com.example.end_to_end_app.common.presentation.model.UIAnimal
+import com.example.pf_utils.model.UIAnimal
 
 
 data class SearchAnimalViewState(

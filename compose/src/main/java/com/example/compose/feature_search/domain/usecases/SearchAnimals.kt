@@ -2,7 +2,7 @@ package com.example.compose.feature_search.domain.usecases
 
 import com.example.compose.feature_search.domain.models.SearchParameters
 import com.example.compose.feature_search.domain.models.SearchResults
-import com.example.end_to_end_app.common.domain.model.repos.AnimalRepository
+import com.example.domain.model.repos.AnimalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
