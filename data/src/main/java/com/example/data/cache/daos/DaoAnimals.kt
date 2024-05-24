@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.data.cache.model.cachedanimal.CachedAnimalAggregate
-import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedAnimalWithDetails
+import com.example.data.cache.model.cachedanimal.CachedAnimalWithDetails
 import com.example.data.cache.model.cachedanimal.CachedPhoto
 import com.example.data.cache.model.cachedanimal.CachedTag
 import com.example.data.cache.model.cachedanimal.CachedVideo
@@ -20,7 +20,7 @@ abstract class DaoAnimals {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertAnimalAggregate(
-        animal:CachedAnimalWithDetails,
+        animal: CachedAnimalWithDetails,
         photos:List<CachedPhoto>,
         videos:List<CachedVideo>,
         tags:List<CachedTag>

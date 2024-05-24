@@ -5,7 +5,6 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.domain.model.animal.Media
-import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedAnimalWithDetails
 
 /**
  * This table/entity is dependent on the CachedAnimal table. It has one to many relationship (1 anim

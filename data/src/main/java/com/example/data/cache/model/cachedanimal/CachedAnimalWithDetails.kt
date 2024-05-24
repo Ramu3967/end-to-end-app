@@ -1,19 +1,16 @@
-package com.example.end_to_end_app.common.data.cache.model.cachedanimal
+package com.example.data.cache.model.cachedanimal
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.data.cache.model.cachedanimal.CachedPhoto
-import com.example.data.cache.model.cachedanimal.CachedTag
-import com.example.data.cache.model.cachedanimal.CachedVideo
 import com.example.data.cache.model.cachedorganization.CachedOrganization
+import com.example.data.utils.DateTimeUtils
 import com.example.domain.model.animal.AdoptionStatus
 import com.example.domain.model.animal.Animal
 import com.example.domain.model.animal.Media
 import com.example.domain.model.animal.details.AnimalWithDetails
-import com.example.end_to_end_app.common.utils.DateTimeUtils
 
 /**
  * This table/entity is dependent on the CachedOrg table. It has one to many relationship (1 Org

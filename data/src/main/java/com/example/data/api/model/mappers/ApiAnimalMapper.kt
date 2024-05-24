@@ -1,6 +1,7 @@
 package com.example.data.api.model.mappers
 
 import com.example.data.api.model.ApiAnimal
+import com.example.data.utils.DateTimeUtils
 import com.example.domain.model.animal.AdoptionStatus
 import com.example.domain.model.animal.Media
 import com.example.domain.model.animal.details.Age
@@ -10,7 +11,6 @@ import com.example.domain.model.animal.details.Details
 import com.example.domain.model.animal.details.Gender
 import com.example.domain.model.animal.details.Size
 import com.example.domain.model.organization.Organization
-import com.example.end_to_end_app.common.utils.DateTimeUtils
 import javax.inject.Inject
 
 

@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.data.cache.daos.DaoAnimals
 import com.example.end_to_end_app.common.data.cache.daos.DaoOrganization
 import com.example.data.cache.model.cachedanimal.CachedAnimalTagCrossRef
-import com.example.end_to_end_app.common.data.cache.model.cachedanimal.CachedAnimalWithDetails
+import com.example.data.cache.model.cachedanimal.CachedAnimalWithDetails
 import com.example.data.cache.model.cachedanimal.CachedPhoto
 import com.example.data.cache.model.cachedanimal.CachedTag
 import com.example.data.cache.model.cachedanimal.CachedVideo
