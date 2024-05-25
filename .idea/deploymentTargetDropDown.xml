@@ -8,6 +8,9 @@
       <entry key="app.compose">
         <State />
       </entry>
+      <entry key="compose">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

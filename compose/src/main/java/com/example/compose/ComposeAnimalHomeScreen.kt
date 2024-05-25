@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.compose.features.animalsnearyou.AnimalsNearYouScreen
+import com.example.compose.features.search.AnimalsSearchScreen
 
 @Composable
 fun ComposeAnimalHomeScreen(navController: NavHostController) {
@@ -27,8 +28,7 @@ fun ComposeAnimalHomeScreen(navController: NavHostController) {
             NavHost(navController = navController,
                 startDestination = DirectionsFeatureSearch.route){
                 composable(DirectionsFeatureSearch.route){
-//                    AnimalsSearchScreen()
-                    AnimalsNearYouScreen()
+                    AnimalsSearchScreen()
 
                 }
                 composable(DirectionsFeatureAnimalsNearYou.route){

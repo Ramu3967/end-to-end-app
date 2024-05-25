@@ -13,6 +13,7 @@ import com.example.pf_utils.features.search.domain.usecases.SearchAnimals
 import com.example.pf_utils.features.search.domain.usecases.SearchAnimalsRemotely
 import com.example.pf_utils.model.mappers.UiAnimalMapper
 import com.example.pf_utils.utils.createExceptionHandler
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
+@HiltViewModel
 class SearchAnimalsViewModel @Inject constructor(
     private val getSearchFilters: GetSearchFilters,
     private val searchAnimals: SearchAnimals,
