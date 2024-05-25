@@ -11,6 +11,9 @@
       <entry key="compose">
         <State />
       </entry>
+      <entry key="pf_xml">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
