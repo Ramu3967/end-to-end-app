@@ -56,7 +56,7 @@
         android:layout_width="@dimen/default_card_size"
         android:layout_height="@dimen/default_card_size"
         android:contentDescription="@string/a_derpy_cat"
-        android:src="@drawable/cat_derp"
+        android:src="@drawable/init_search"
         app:layout_constraintBottom_toTopOf="@id/initial_search_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
