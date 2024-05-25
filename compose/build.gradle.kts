@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.compose"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -64,6 +64,8 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":pf_utils"))
+    implementation(project(":data"))
+
 
     // DI
     implementation ("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")

@@ -23,7 +23,6 @@ import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouE
 import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouViewModel
 import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouViewState
 import com.example.pf_utils.model.AnimalUIElement
-import com.example.pf_utils.model.MyLoader
 
 
 @Composable
@@ -38,7 +37,7 @@ fun AnimalsNearYouScreen() {
 
         Box(modifier = Modifier.fillMaxSize()) {
             InfiniteScrollableGrid(viewModel, animalState)
-            MyLoader(animalState.loading)
+//            MyLoader(animalState.loading)
         }
     }
 

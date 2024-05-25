@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.pf_presentation.R
+import com.example.pf_utils.R
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

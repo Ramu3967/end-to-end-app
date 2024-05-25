@@ -28,9 +28,9 @@ class ComposeMainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column{
-//                        val navController = rememberNavController()
-//                        ComposeAnimalHomeScreen(navController)
-                        Greeting(name = "Hello world")
+                        val navController = rememberNavController()
+                        ComposeAnimalHomeScreen(navController)
+//                        Greeting(name = "Hello world")
                     }
                 }
             }
