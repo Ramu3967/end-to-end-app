@@ -59,7 +59,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
 
     // Navigation
-    val navVersion = "2.4.2"
+    val navVersion = "2.7.7"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
