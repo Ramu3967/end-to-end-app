@@ -59,9 +59,14 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
 
     // Navigation
-    val nav_version = "2.4.2"
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    val navVersion = "2.4.2"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
+
+    // UI
+    val glideVersion = "4.13.2"
+    implementation ("com.github.bumptech.glide:glide:$glideVersion")
+    kapt ("com.github.bumptech.glide:compiler:$glideVersion")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
