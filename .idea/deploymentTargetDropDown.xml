@@ -5,6 +5,15 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="app.compose">
+        <State />
+      </entry>
+      <entry key="compose">
+        <State />
+      </entry>
+      <entry key="pf_xml">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
