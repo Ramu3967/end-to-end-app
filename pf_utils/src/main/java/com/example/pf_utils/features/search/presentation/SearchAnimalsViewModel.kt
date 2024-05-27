@@ -36,6 +36,7 @@ class SearchAnimalsViewModel @Inject constructor(
     val state: StateFlow<SearchAnimalViewState>
         get() = _state.asStateFlow()
 
+    val filterDefaultValue =  GetSearchFilters.NO_FILTER_SELECTED
     private var currentPage = 1
     private val queryInputFlow = MutableStateFlow("")
     private val ageInputFlow = MutableStateFlow("")
