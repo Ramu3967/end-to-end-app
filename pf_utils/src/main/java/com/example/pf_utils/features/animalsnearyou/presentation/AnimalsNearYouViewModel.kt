@@ -28,6 +28,10 @@ class AnimalsNearYouViewModel @Inject constructor(
     private val uiAnimalMapper: UiAnimalMapper
 ): ViewModel(){
 
+    companion object {
+        const val UI_PAGE_SIZE: Int = Pagination.DEFAULT_PAGE_SIZE
+    }
+
     private var currentPage = 1 // need to save in savedPrefs
     // holds the state of AnimalsNearYou screen
     private val _state = MutableStateFlow(AnimalsNearYouViewState())

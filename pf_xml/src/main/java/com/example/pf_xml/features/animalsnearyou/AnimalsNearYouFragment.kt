@@ -9,8 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.NoMoreAnimalsException
 import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouEvent
 import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouViewModel
+import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouViewModel.Companion.UI_PAGE_SIZE
 import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouViewState
 import com.example.pf_xml.R
 import com.example.pf_xml.databinding.FragmentAnimalsNearYouBinding
@@ -29,6 +32,12 @@ class AnimalsNearYouFragment: Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AnimalsNearYouViewModel by viewModels()
+
+    private lateinit var layoutManager: GridLayoutManager
+    private lateinit var animalsAdapter: AnimalsAdapter
+
+    private var isLoadingMoreAnimals = false
+    private var isLastPage = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,29 +64,27 @@ class AnimalsNearYouFragment: Fragment() {
     }
 
     private fun setupUI() {
-        val adapter = createAdapter()
-        setupRecyclerView(adapter)
-        observeViewStateUpdates(adapter)
+        animalsAdapter = createAdapter()
+        setupRecyclerView(animalsAdapter)
+        observeViewStateUpdates()
     }
 
-    private fun observeViewStateUpdates(adapter: AnimalsAdapter) {
+    private fun observeViewStateUpdates() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect{
-                updateScreenState(it,adapter)
+            viewModel.state.collect { state ->
+                updateScreenState(state)
             }
         }
     }
 
-    private fun updateScreenState(
-        state: AnimalsNearYouViewState,
-        adapter: AnimalsAdapter
-    ){
-        // consume all the fields of your state
+    private fun updateScreenState(state: AnimalsNearYouViewState) {
         binding.progressBar.isVisible = state.loading
-        adapter.submitList(state.dataAnimals)
+        animalsAdapter.submitList(state.dataAnimals)
         handleFailure(state.failure)
-    }
 
+        isLoadingMoreAnimals = state.loading
+        isLastPage = state.failure is NoMoreAnimalsException
+    }
 
     private fun handleFailure(failure: Throwable?) {
         val unhandledFailure = failure ?: return
@@ -89,14 +96,41 @@ class AnimalsNearYouFragment: Fragment() {
     }
 
     private fun setupRecyclerView(animalsAdapter: AnimalsAdapter) {
-        binding.animalsRecyclerView.apply{
+        layoutManager = GridLayoutManager(requireContext(), ITEMS_PER_ROW)
+        binding.animalsRecyclerView.apply {
             adapter = animalsAdapter
-            layoutManager= GridLayoutManager(requireContext(),ITEMS_PER_ROW)
+            layoutManager = this@AnimalsNearYouFragment.layoutManager
             setHasFixedSize(true)
+            addOnScrollListener(createInfiniteScrollListener())
         }
     }
 
     private fun createAdapter(): AnimalsAdapter {
         return AnimalsAdapter()
+    }
+
+    private fun createInfiniteScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                if (!isLoadingMoreAnimals && !isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= UI_PAGE_SIZE) {
+                        loadMoreItems()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadMoreItems() {
+        isLoadingMoreAnimals = true
+        viewModel.onEvent(AnimalsNearYouEvent.RequestMoreAnimals)
     }
 }
