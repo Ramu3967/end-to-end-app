@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
       android:id="@+id/animalsNearYou"
-      android:icon="@drawable/ic_animals_near_you_24dp"
+      android:icon="@drawable/baseline_location_pin_24"
       android:title="@string/animals_near_you"
       app:showAsAction="ifRoom" />
   <item
