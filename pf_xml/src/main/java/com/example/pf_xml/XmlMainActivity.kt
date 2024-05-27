@@ -20,10 +20,6 @@ class XmlMainActivity : AppCompatActivity() {
         hostFrag.navController
     }
 
-    private val appBarConfiguration by lazy {
-        AppBarConfiguration(topLevelDestinationIds = setOf(R.id.animalsNearYou, R.id.search))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityXmlMainBinding.inflate(layoutInflater)
@@ -32,14 +28,9 @@ class XmlMainActivity : AppCompatActivity() {
         setupBottomNav()
     }
 
-    // gives toolbar access to the nav stack
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
 
     private fun setupActionBar(){
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setupWithNavController(navController)
     }
 
     private fun setupBottomNav(){

@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -103,6 +104,10 @@ fun SearchView(action: (String) -> Unit) {
             unfocusedBorderColor = Color.Gray,
         ),
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+        trailingIcon = {
+            if(text.isNotEmpty())
+                Icon(Icons.Filled.Clear, contentDescription = null,
+            modifier = Modifier.clickable { text = ""; action("") })},
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF495E57))
