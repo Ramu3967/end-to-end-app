@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,7 @@ import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouE
 import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouViewModel
 import com.example.pf_utils.features.animalsnearyou.presentation.AnimalsNearYouViewState
 import com.example.pf_utils.model.AnimalUIElement
+import com.example.pf_utils.model.MyLoader
 
 
 @Composable
@@ -37,7 +40,7 @@ fun AnimalsNearYouScreen() {
 
         Box(modifier = Modifier.fillMaxSize()) {
             InfiniteScrollableGrid(viewModel, animalState)
-//            MyLoader(animalState.loading)
+            MyLoader(animalState.loading)
         }
     }
 
@@ -78,8 +81,6 @@ fun InfiniteScrollableGrid(
         }
     }
 }
-
-
 
 fun handleFailure(failure: Throwable?) {
     val unhandledMessage = failure?.message ?: /* no failure then */ return
