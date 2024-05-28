@@ -6,7 +6,7 @@ Here the domain is Pet Adoption.
 
 (NOTE - this is not the final version. README file will be updated.)
 
-
+It also tries to show the future-proof Architecture with minimal changes so that you can swap DATA layers, UI Layers(shown here) without affecting the domain layer.
 
 
 
@@ -14,7 +14,7 @@ Here the domain is Pet Adoption.
 ## Getting Started
 
 - To get started with this project, follow these instructions:
-
+- Clone using the link below.
 ```bash
 https://github.com/Ramu3967/end-to-end-app.git
 ```
@@ -67,9 +67,10 @@ https://github.com/Ramu3967/end-to-end-app.git
 Here comes the demo of the both the apps whose User Interface is implemented using COMPOSE and XML that share the common code from the domain, data and other layers following a Clean Architecture, with slightly different UI.
 
 
-# Demo 1 
-
-# Demo 2
+# Demo 1 (XML)
+https://github.com/Ramu3967/end-to-end-app/assets/26451658/78c2e361-1776-41f8-b59c-cb3e52b3e66f
+# Demo 2 (COMPOSE)
+https://github.com/Ramu3967/end-to-end-app/assets/26451658/67d810d3-f62b-4afc-898f-19a237f973c6
 
 
 
@@ -129,7 +130,8 @@ This layer shouldn’t depend on any other layer. You can change data from REST 
 ### Connecting to the API 
 - AnimalsNearYou feature requires the animal data according to the postal code and distance you specify.
 - You tell the retrofit to make a GET request using the following query parameters.
-- IIIIIIIIIIIInsert  image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- <img width="335" alt="Screenshot 2024-05-28 173825" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/7d6a2e86-187f-414d-8020-4cbfb429981a">
+
 - The petFinder server uses Oauth to authenticate the users with certain access tokens. You use this token and add it to each request as an http header using Interceptors.
 
 ### Interceptors
@@ -142,7 +144,7 @@ The current project uses 3 interceptors:
 - MockWebServer - Lets you test your network code without connecting to a real server by creating a local web server which you can use to mock server responses.
 - Create a mock response and store it in the assets folder. In the project, you store it in the debug srcSet so instrumented tests can also access it in the future.
 - With this, unit tests can access all the assets, manifests, resources.
-- IIIIIIIIIIIInsert  image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- <img width="183" alt="Screenshot 2024-05-28 173936" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/709aa770-d468-4d9e-a15a-d44dfb934ae6">
 - You provide your fake server responses through objects called mockServer.Dispatchers.
 - With mocks, you might implement too much logic. In cases like these, you can use a fake implementation and verify the final state that you want to test.
 - Always focus on testing the behavior and not on the implementation.
@@ -150,11 +152,11 @@ The current project uses 3 interceptors:
 ## CACHE package
 - You’d divide your db into various tables based on the entities and the relationship between them.
 - The following is the ER diagram for this Application.
-- IIIIIIIIIIIInsert  image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- <img width="394" alt="er" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/a2e685e1-ac00-4846-9860-943063346a9e">
 - DB DESIGN
     - one - one, one - many relationships,
-    - aggregate/intermediate classes to represent relationships
-    - 
+    - aggregate/intermediate classes (to avoid writing complex queries) to represent relationships (other way is by using the multi-maps with complex queries and their return types)
+    - <img width="545" alt="aggr" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/362a934a-61fa-440d-abb4-e1283e5cfdfe">
 
 
 ### Testing
@@ -193,28 +195,28 @@ The current project uses 3 interceptors:
 - Presenters in the MVP pattern are stateless (usually). MVVM has state management built in the architecture.
 - In MVVM, the view subscribes to the changes in its state to the viewModel.
 - But still, there are problems in it too. Ex - if you have tightly coupled properties as shown below, you might end up in an impossible state where you have the list items and the progress bar is loading.
-- IIIIIIIIIIIInsert  image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- <img width="209" alt="state" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/d6ca9da1-f13b-40a1-b42b-30841fa3271a">
 
 ### MVVM-MVI
 - MVI enforces some rules
-- IIIIIIIIIIIInsert  image  hereeeeeeeeeeeeeeeeeeeeeeeee
-- *****You won’t work with the exact MVI (avoiding reducers and intents), but a combination of MVVM and MVI (unidirectional data flow architecture).
-- IIIIIIIIIIIInsert  image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- <img width="361" alt="image" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/c03b5306-d932-4d3e-b6b0-a272a9d95d35">
+- You won’t work with the exact MVI (avoiding reducers and intents), but a combination of MVVM and MVI (unidirectional data flow architecture).
+- <img width="278" alt="flow" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/b5364a7d-4cf9-4945-90ca-61cf059a8367">
 
 
 #### First Use-Case
 - Every use case is a class with which you keep your app’s logic well-separated.
 - A use case has a purpose and so it's better to have only one method in it.
-- IIIIIIIIIIIInsert  image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- <img width="515" alt="usecase" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/73e29079-dbb5-4647-8366-e7841a7889c5">
 
 
 #### Second Use-Case
 - This feature is all about searching the animals and follows the similar pattern to that of the animals near you feature.
 - You send searchEvents to the viewModel and it processes the info using the use cases and updates the states for the UI to consume.
 - As the db is the source of truth for the data, the search would be a local one, if there are no results there, make an api call with the search parameters.
-- IIIIIIIIIIIInsert  state image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- 
 - The complexity is in the various scenarios - starting to search locally, searching remotely, no results etc has their own set of values for the state. So, instead of updating all the fields with respect to the scenario, you make use of some util functions
-- IIIIIIIIIIIInsert  util image  hereeeeeeeeeeeeeeeeeeeeeeeee
+- <img width="524" alt="state2" src="https://github.com/Ramu3967/end-to-end-app/assets/26451658/dca4b8fb-21e5-43b6-bb7c-19de4af44b6b">
 
 
 
