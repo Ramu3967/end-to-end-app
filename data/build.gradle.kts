@@ -13,7 +13,7 @@ android {
         minSdk = 26
         targetSdk = 34
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.data.HiltTestRunner"
     }
 
     buildTypes {
@@ -54,6 +54,21 @@ dependencies {
     implementation("androidx.room:room-runtime:${rootProject.extra["roomVersion"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["roomVersion"]}")
     kapt("androidx.room:room-compiler:${rootProject.extra["roomVersion"]}")
+
+
+    // android test deps
+    androidTestImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["hiltVersion"]}")
+    kaptAndroidTest ("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
+
+    androidTestImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["hiltVersion"]}")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
+
+    testImplementation ("org.mockito:mockito-core:${rootProject.extra["mockitoVersion"]}")
+    // Dependencies for both test and AndroidTest
+    debugImplementation("com.google.truth:truth:${rootProject.extra["truthVersion"]}")
+    debugImplementation("androidx.arch.core:core-testing:${rootProject.extra["androidxCoreTestingVersion"]}")
+
+    debugImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["mockWebServerVersion"]}")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

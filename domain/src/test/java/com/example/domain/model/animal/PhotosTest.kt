@@ -1,4 +1,4 @@
-package com.example.end_to_end_app.common.domain.model.animal
+package com.example.domain.model.animal
 
 import org.junit.Assert.*
 import org.junit.Test
