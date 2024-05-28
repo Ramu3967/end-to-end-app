@@ -10,8 +10,5 @@ import androidx.compose.ui.Modifier
 @Composable
 fun MyLoader(isLoading : Boolean) {
     if (isLoading)
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) { CircularProgressIndicator() }
+        { CircularProgressIndicator() }
 }

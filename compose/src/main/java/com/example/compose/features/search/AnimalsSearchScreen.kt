@@ -5,13 +5,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -48,6 +52,7 @@ import com.example.pf_utils.features.search.presentation.SearchAnimalEvents
 import com.example.pf_utils.features.search.presentation.SearchAnimalViewState
 import com.example.pf_utils.features.search.presentation.SearchAnimalsViewModel
 import com.example.pf_utils.model.AnimalUIElement
+import com.example.pf_utils.model.MyLoader
 import com.example.pf_utils.model.UIAnimal
 
 //@Preview
@@ -147,7 +152,7 @@ fun UpdateScreens(state: SearchAnimalViewState, ageAction:(String)-> Unit, typeA
             typeAction = typeAction
         )
         UpdateResultsInGrid(searchResults)
-        RemoteStateViews(vis = isSearchRemote)
+        RemoteSearchViews(vis = isSearchRemote)
     }
     InitialStateViews(vis = noSearchQuery)
     NoResultsView(vis = areRemoteResultsFound)
@@ -159,13 +164,13 @@ fun UpdateScreens(state: SearchAnimalViewState, ageAction:(String)-> Unit, typeA
 @Composable
 fun UpdateFilterViews(ageFilters: List<String>, typeFilters: List<String>, ageAction:(String)-> Unit, typeAction:(String)-> Unit) {
     Row {
-        DropdownView(items = typeFilters, action = typeAction)
-        DropdownView(items = ageFilters, action = ageAction)
+        DropdownView(items = typeFilters, label = "Type", action = typeAction)
+        DropdownView(items = ageFilters, label = "Age", action = ageAction)
     }
 }
 
 @Composable
-fun DropdownView(items: List<String> = listOf("age1","age2","age3","age4"), action:(String)-> Unit) {
+fun DropdownView(items: List<String>, label: String, action:(String)-> Unit) {
 
     // State to hold the selected item
     var selectedItem by remember { mutableStateOf(items.firstOrNull() ?: "Any") }
@@ -180,20 +185,27 @@ fun DropdownView(items: List<String> = listOf("age1","age2","age3","age4"), acti
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BasicTextField(
-                value = TextFieldValue(selectedItem),
-                onValueChange = {
-                    selectedItem = it.text
-                },
-                singleLine = true,
 
-                readOnly = true,
-                modifier = Modifier
-                    .height(56.dp)
-                    .border(1.dp, Color.Gray, MaterialTheme.shapes.small)
-                    .padding(horizontal = 8.dp)
-                    .clickable(onClick = { expanded = true })
-            )
+            Column{
+                Text(
+                    text = label,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                BasicTextField(
+                    value = TextFieldValue(selectedItem),
+                    onValueChange = {
+                        selectedItem = it.text
+                    },
+                    singleLine = true,
+
+                    readOnly = true,
+                    modifier = Modifier
+                        .height(56.dp)
+                        .border(1.dp, Color.Gray, MaterialTheme.shapes.small)
+                        .padding(horizontal = 8.dp)
+                        .clickable(onClick = { expanded = true })
+                )
+            }
             IconButton(
                 onClick = { expanded = !expanded }
             ) {
@@ -251,25 +263,34 @@ fun NoResultsView(vis:Boolean) {
 }
 
 @Composable
-fun RemoteStateViews(vis:Boolean) {
-    if(vis)
-        Box(contentAlignment = Alignment.TopCenter){
-            Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
+fun RemoteSearchViews(vis: Boolean) {
+    if (vis)
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier.padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Image(painter = painterResource(id = com.example.pf_utils.R.drawable.img_searching), contentDescription = "")
                 Text(text = "Please wait, search in progress")
+                Spacer(modifier = Modifier.height(16.dp))
+                MyLoader(isLoading = vis)
             }
-//            MyLoader(isLoading = vis)
         }
-
 }
 
 @Composable
 fun InitialStateViews(vis:Boolean ) {
     if(vis)
-        Column (modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
-            Image(painter = painterResource(id = com.example.pf_utils.R.drawable.init_search, ), contentDescription = "",
-            )
-            Text(text = "Use the above fields to search for animals", fontSize = 25.sp)
+        Column ( modifier = Modifier.padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center){
+            Image(painter = painterResource(id = com.example.pf_utils.R.drawable.init_search ), contentDescription = "",
+                Modifier.size(200.dp))
+            Text(text = "Use the above search field to find your new pet! Don't forget to use the filters to narrow down the search")
         }
 }
 
